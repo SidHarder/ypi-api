@@ -1,0 +1,27 @@
+{
+  "name": "ypi_api",
+  "version": "0.0.1",
+  "description": "YPI Connect",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SidHarder/ypi_api.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SidHarder/ypi_api/issues"
+  },
+  "homepage": "https://github.com/SidHarder/ypi_api#readme",
+  "dependencies": {
+    "jayson": "^3.3.4",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.28.0",
+    "mysql": "^2.18.1",
+    "qrcode": "^1.4.4",
+    "speakeasy": "^2.0.0"
+  }
+}
