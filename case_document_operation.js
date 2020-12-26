@@ -11,8 +11,8 @@ function processCaseDocumentOperation(args, cb) {
 }
 
 function getCaseDocument(args, cb) {
-  var file = './goof.xps'
-  fs.readFile(file, function (error, data) {
+  var fileName = args[0].caseDocumentOperation.fileName
+  fs.readFile(fileName, function (error, data) {
     if (error) return cb(null, { status: 'ERROR', message: error })
     cb(null, { status: 'OK', message: data })
   })

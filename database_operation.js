@@ -16,7 +16,7 @@ var pool = mysql.createPool({
 function processDatabaseOperation(args, cb) {
   switch (args[0].databaseOperation.method) {
     case 'executeSqlCommand':
-      executeSqlCommand(args, cb)
+      executeSqlCommand(args[0].databaseOperation.commandText, cb)
       break
     case 'insertRow':
       insertRow(args, cb)
@@ -63,8 +63,8 @@ function query() {
   }
 }
 
-function executeSqlCommand(args, cb) {
-  query(args[0].databaseOperation.commandText, function (error, results, fields) {
+function executeSqlCommand(commandText, cb) {
+  query(commandText, function (error, results, fields) {
     if (error) {
       console.error(error)
       return cb(null, { status: 'ERROR', message: error })
@@ -122,5 +122,6 @@ function updateRow(tableName, row, cb) {
   })
 }
 
+databaseOperation.executeSqlCommand = executeSqlCommand
 databaseOperation.processDatabaseOperation = processDatabaseOperation
 module.exports = databaseOperation
