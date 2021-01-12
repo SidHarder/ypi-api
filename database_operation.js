@@ -1,15 +1,14 @@
 const mysql = require('mysql')
-const localSettings = require('./local_settings.json')
 const mapping = require('./mapping')
 
 const databaseOperation = {}
 
 var pool = mysql.createPool({
-  host: localSettings.mySql.host,
-  user: localSettings.mySql.user,
-  password: localSettings.mySql.password,
-  database: localSettings.mySql.database,
-  multipleStatements: localSettings.mySql.multipleStatements,
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  multipleStatements: process.env.MYSQL_MULTIPLESTATEMENTS,
   dateStrings: ['DATE', 'DATETIME']
 })
 
