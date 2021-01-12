@@ -43,9 +43,8 @@ async function send (args, cb) {
     html: `<p>${message}</p>`
   }
 
-  let info = await transporter.sendMail(emailContent)
-  console.log(info)
-  cb(null, { status: 'OK', message: `An email was sent to: ${emailAddress} })
+  let info = await transporter.sendMail(emailContent)  
+  cb(null, { status: 'OK', message: `An email was sent to: ${emailAddress}` })
 }
 
 email.send = send;
