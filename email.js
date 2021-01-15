@@ -36,7 +36,7 @@ async function send (args, cb) {
 
   let transporter = nodemailer.createTransport(mailConfig)
   let emailContent = {
-    from: 'support@ypii.com',
+    from: 'Yellowstone Pathology Institute <support@ypii.com>',
     to: emailAddress,
     subject: subject,
     text: message,

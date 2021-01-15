@@ -31,6 +31,7 @@ function createResultPackage (args, cb) {
   getResultInfo(reportNo, function (error, resultInfo) {    
     var resultPackage = {
       reportNo: resultInfo.reportNo,
+      encryptedReportNo: data,
       lastName: resultInfo.lastName,
       firstName: resultInfo.firstName,
       collectionDate: moment(resultInfo.collectionDate).format('MM/DD/YYYY'),
@@ -38,6 +39,21 @@ function createResultPackage (args, cb) {
     }    
     return cb(null, { status: 'OK', resultPackage });
   });  
+}
+
+function decryptData(args, cb) {
+  console.log(`Running decryptUrl`)
+
+  var data = args[0].data;
+  if (!data) {
+    console.log(`Data was not provided as an argument.`);
+    return cb(null, { status: 'ERROR', message: `Data was not provided as an argument.` });
+  }
+
+  console.log(`The data provided: ${data}`)
+  var decryptionResult = decrypt(process.env.SYSTEM_KEY, process.env.SYSTEM_IV, data);
+  console.log(decryptionResult)
+  return cb(null, decryptionResult);
 }
 
 function encryptResult (dateOfBirth, testResult) {
@@ -125,4 +141,5 @@ function encrypt(cryptkey, iv, cleardata) {
 encryptionOperation.decryptResult = decryptResult
 encryptionOperation.createResultUrl = createResultUrl
 encryptionOperation.createResultPackage = createResultPackage
+encryptionOperation.decryptData = decryptData
 module.exports = encryptionOperation

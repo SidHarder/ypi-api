@@ -19,6 +19,7 @@ const server = jayson.server({
   createResultUrl: encryptionOperation.createResultUrl,
   createResultPackage: encryptionOperation.createResultPackage,
   decryptResult: encryptionOperation.decryptResult,
+  decryptData: encryptionOperation.decryptData,
   sendCovidResultText: covidResultDistribution.sendText,
   sendCovidResultEmail: covidResultDistribution.sendEmail
 })

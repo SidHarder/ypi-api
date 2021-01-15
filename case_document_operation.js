@@ -5,6 +5,9 @@ var caseDocumentOperation = {}
 function processCaseDocumentOperation(args, cb) {
   if (args[0].caseDocumentOperation.method == 'getCaseDocument') {
     getCaseDocument(args, cb)
+  }
+  else if (args[0].caseDocumentOperation.method == 'getCaseDocumentSecure') {
+      getCaseDocumentSecure(args, cb)    
   } else {
     cb(null, { status: 'ERROR', message: `${args[0].caseDocumentOperation.method} is Not implemented.` })
   }
