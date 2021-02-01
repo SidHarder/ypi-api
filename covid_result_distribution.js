@@ -21,7 +21,7 @@ function sendText(args, cb) {
 
   encryptionOperation.createResultUrl([{ reportNo: reportNo }], function (error, result) {    
     var message = `This is Yellowstone Pathology Institute.  Your SARS-CoV-2 PCR test result is ready.  Please click on the following link to review your result: ${result.url}`;
-    email.send([{ phoneNumber: phoneNumber, message: message }], function (error, result) {      
+    textMessage.send([{ phoneNumber: phoneNumber, message: message }], function (error, result) {      
       cb(null, { status: 'OK', message: 'A text was sent.' })
     })    
   })  
