@@ -19,8 +19,7 @@ function getToken(args, cb) {
   var userName = args[0].authenticationOperation.userName
   var password = args[0].authenticationOperation.password
   var authenticatorToken = args[0].authenticationOperation.authenticatorToken
-
-  console.log(args)
+  
   IsUsernamePasswordValid(userName, password, function (error, isValid, webServiceAccount, webServiceAccountClient, clientsAllowed) {
     console.log(webServiceAccount)
     if (isValid == true) {
@@ -87,6 +86,7 @@ function getWebServiceAccountByUsernamePassword(userName, password, cb) {
   let commandText = `select * from tblWebServiceAccount where UserName = '${userName}' and Password = '${password}';`; 
   commandText += `select wsac.* from tblWebServiceAccountClient wsac join tblWebServiceAccount wsa on wsac.WebServiceAccountId = wsa.WebServiceAccountId where wsa.UserName = '${userName}' and wsa.Password = '${password}';`
   commandText += `select * from tblClient where clientId in (select wsac.clientId from tblWebServiceAccountClient wsac join tblWebServiceAccount wsa on wsac.WebServiceAccountId = wsa.WebServiceAccountId where wsa.UserName = '${userName}' and wsa.Password = '${password}');`
+  commandText += `select * from tblClientGroupClient where clientId = (select primaryClientId from tblWebServiceAccount where UserName = '${userName}' and Password = '${password}');`;
   
   db.executeSqlCommand(commandText, function (error, result) {
     if (error) return cb(error)
