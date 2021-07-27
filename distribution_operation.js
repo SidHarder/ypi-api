@@ -22,7 +22,7 @@ function acknowledgeDistributions(args, cb) {
 
   var sqlStatements = [];
   idList.forEach(element => {
-    var sqlStatement = `Update tblTestOrderReportDistribution set distributed = 1 where testOrderReportDistributionid = '${element}';`  
+    var sqlStatement = `Update tblTestOrderReportDistribution set acknowledged = 1 where testOrderReportDistributionid = '${element}';`  
     sqlStatements.push(sqlStatement);
   });
 
