@@ -27,6 +27,7 @@ function acknowledgeDistributions(args, cb) {
   });
 
   var sql = sqlStatements.join(' ');   
+  console.log(sql);
   db.executeSqlCommand(sql, function (error, result) {
     if (error) return cb(null, error);
     cb(null, result);
