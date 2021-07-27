@@ -19,7 +19,7 @@ function sendText(args, cb) {
     return cb(null, { status: 'ERROR', message: `A reportNo was not provided as an argument.` });
   }
 
-  encryptionOperation.createResultUrl([{ reportNo: reportNo }], function (error, result) {    
+  encryptionOperation.createResultUrl([{ reportNo: reportNo }], function (error, result) {       
     var message = `This is Yellowstone Pathology Institute.  Your SARS-CoV-2 PCR test result is ready.  Please click on the following link to review your result: ${result.url}`;
     textMessage.send([{ phoneNumber: phoneNumber, message: message }], function (error, result) {      
       cb(null, { status: 'OK', message: 'A text was sent.' })

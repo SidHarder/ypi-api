@@ -14,6 +14,7 @@ function processCaseDocumentOperation(args, cb) {
 }
 
 function getCaseDocument(args, cb) {
+  console.log(args[0].caseDocumentOperation.fileName)
   var fileName = args[0].caseDocumentOperation.fileName
   fs.readFile(fileName, function (error, data) {
     if (error) return cb(null, { status: 'ERROR', message: error })
