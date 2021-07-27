@@ -9,6 +9,7 @@ const textMessage = require('./text_message')
 const email = require('./email');
 const covidResultDistribution = require('./covid_result_distribution');
 const billingOperation = require('./billing_operation');
+const distributionOperation = require('./distribution_operation');
 
 const server = jayson.server({
   ping: ping,
@@ -23,7 +24,8 @@ const server = jayson.server({
   decryptData: encryptionOperation.decryptData,
   sendCovidResultText: covidResultDistribution.sendText,
   sendCovidResultEmail: covidResultDistribution.sendEmail,
-  billingOperation: billingOperation.processBillingOperation
+  billingOperation: billingOperation.processBillingOperation,
+  distributionOperation: distributionOperation.processDistributionOperation
 })
 
 function ping(args, cb) {
