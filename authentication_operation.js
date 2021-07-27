@@ -20,7 +20,7 @@ function getToken(args, cb) {
   var password = args[0].authenticationOperation.password
   var authenticatorToken = args[0].authenticationOperation.authenticatorToken
   
-  IsUsernamePasswordValid(userName, password, function (error, isValid, webServiceAccount, webServiceAccountClient, clientsAllowed) {
+  IsUsernamePasswordValid(userName, password, function (error, isValid, webServiceAccount, webServiceAccountClient, clientsAllowed, clientGroupClient) {
     console.log(webServiceAccount)
     if (isValid == true) {
       console.log(`--> The two factor sectet is: ${webServiceAccount.TwoFactorSecret}`)
@@ -28,7 +28,7 @@ function getToken(args, cb) {
       if (verified) {
         var user = { displayName: webServiceAccount.DisplayName, enableReportBrowser: webServiceAccount.EnableReportBrowser }
         var token = jwt.sign(user, webServiceAccount.TwoFactorSecret)                
-        cb(null, { status: 'OK', isAuthenticated: true, message: 'A token has been created for this user.', token: token, webServiceAccount: webServiceAccount, webServiceAccountClient: webServiceAccountClient, clientsAllowed: clientsAllowed })
+        cb(null, { status: 'OK', isAuthenticated: true, message: 'A token has been created for this user.', token: token, webServiceAccount: webServiceAccount, webServiceAccountClient: webServiceAccountClient, clientsAllowed: clientsAllowed, clientGroupClient: clientGroupClient })
       } else {
         cb(null, { status: 'OK', isAuthenticated: false, message: 'The Authenticator Id is not valid.' })
       }
@@ -42,7 +42,7 @@ function getQRCode(args, cb) {
   var userName = args[0].authenticationOperation.userName
   var password = args[0].authenticationOperation.password
 
-  IsUsernamePasswordValid(userName, password, function (error, isValid, webServiceAccount, webServiceAccountClient, clientsAllowed) {
+  IsUsernamePasswordValid(userName, password, function (error, isValid, webServiceAccount, webServiceAccountClient, clientsAllowed, clientGroupClient) {
     if (error) return cb(null, { status: 'ERROR', message: error })
     if (isValid) {
       var secret = speakeasy.generateSecret({ name: 'YPI Connect' })
@@ -76,7 +76,7 @@ function IsUsernamePasswordValid(userName, password, cb) {
       cb(null, false)
     } else {
       console.log(`Success: Search by Username and password succeeded.`)
-      cb(null, true, queryResult[0][0], queryResult[1], queryResult[2])
+      cb(null, true, queryResult[0][0], queryResult[1], queryResult[2], queryResult[3])
     }
   })
 }
