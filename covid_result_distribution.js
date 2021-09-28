@@ -47,7 +47,7 @@ function sendEmail(args, cb) {
 
   encryptionOperation.createResultUrl([{ reportNo: reportNo }], function (error, result) {
     var subject = `Your SARS-CoV-2 PCR test result is ready.`    
-    var message = `${firstName}, This is Yellowstone Pathology Institute.  Your SARS-CoV-2 PCR test result is ready.  Please click on the following link to review your result: <a href=${result.url}>${result.url}</a>`;
+    var message = `${firstName}, this is Yellowstone Pathology Institute.  Your SARS-CoV-2 PCR test result is ready.  Please click on the following link to review your result: <a href=${result.url}>${result.url}</a>`;
     email.send([{ emailAddress: emailAddress, message: message, subject: subject }], function (error, result) {  
       if(error) {
         console.error(error);
