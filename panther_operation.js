@@ -1,6 +1,6 @@
 const pantherOperation = {}
 
-function processPanterOperation(args, cb) {
+function processPantherOperation(args, cb) {
   switch (args[0].pantherOperation.method) {
     case 'submitResult':
       submitResult(args[0].pantherOperation, cb)
@@ -18,4 +18,5 @@ function submitResult (args, cb) {
 }
 
 pantherOperation.submitResult = submitResult;
+pantherOperation.processPantherOperation = processPantherOperation;
 module.exports = pantherOperation;
