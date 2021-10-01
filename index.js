@@ -10,6 +10,7 @@ const email = require('./email');
 const covidResultDistribution = require('./covid_result_distribution');
 const billingOperation = require('./billing_operation');
 const distributionOperation = require('./distribution_operation');
+const pantherOperation = require('./panther_operation');
 
 const server = jayson.server({
   ping: ping,
@@ -25,14 +26,15 @@ const server = jayson.server({
   sendCovidResultText: covidResultDistribution.sendText,
   sendCovidResultEmail: covidResultDistribution.sendEmail,
   billingOperation: billingOperation.processBillingOperation,
-  distributionOperation: distributionOperation.processDistributionOperation
-})
+  distributionOperation: distributionOperation.processDistributionOperation,
+  pantherOperation: pantherOperation.processPantherOperation
+});
 
 function ping(args, cb) {
-  console.log('Ping received .. sending pong response.')
-  cb(null, { status: 'OK', message: 'Pong' })
+  console.log('Ping received .. sending pong response.');
+  cb(null, { status: 'OK', message: 'Pong' });
 }
 
 server.http().listen(process.env.APP_PORT, function () {
-  console.log(`Server is listening on port: ${process.env.APP_PORT}`)
+  console.log(`Server is listening on port: ${process.env.APP_PORT}`);
 })
