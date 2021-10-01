@@ -17,5 +17,5 @@ function submitResult (args, cb) {
   cb(null, { status: 'Panther result has been submitted.' })
 }
 
-patherOperation.submitResult = submitResult;
+pantherOperation.submitResult = submitResult;
 module.exports = pantherOperation;
