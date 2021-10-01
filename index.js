@@ -26,8 +26,7 @@ const server = jayson.server({
   sendCovidResultText: covidResultDistribution.sendText,
   sendCovidResultEmail: covidResultDistribution.sendEmail,
   billingOperation: billingOperation.processBillingOperation,
-  distributionOperation: distributionOperation.processDistributionOperation,
-  pantherOperation: pantherOperation.processPantherOperation
+  distributionOperation: distributionOperation.processDistributionOperation  
 });
 
 function ping(args, cb) {
