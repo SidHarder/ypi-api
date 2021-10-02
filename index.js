@@ -10,7 +10,7 @@ const email = require('./email');
 const covidResultDistribution = require('./covid_result_distribution');
 const billingOperation = require('./billing_operation');
 const distributionOperation = require('./distribution_operation');
-const pantherOperation = require('./panther_operation');
+const pantherOperation = require('./panther/panther_operation');
 
 const server = jayson.server({
   ping: ping,
