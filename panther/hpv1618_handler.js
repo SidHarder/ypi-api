@@ -31,5 +31,5 @@ function handleNegativeResult(result) {
 
 }
 
-hpv1618Handler.processPantherOperation = processPantherOperation;
+hpv1618Handler.handleResult = handleResult;
 module.exports = hpv1618Handler;
