@@ -11,12 +11,8 @@ function createResultUrl (args, cb) {
     console.log(`A reportNo was not provided as an argument.`);
     return cb(null, { status: 'ERROR', message: `A reportNo was not provided as an argument.` });
   }
-  
-  console.log(reportNo);
-  console.log(process.env.SYSTEM_KEY);
-  console.log(process.env.SYSTEM_IV);
-  var encryptedReportNo = encrypt(process.env.SYSTEM_KEY, process.env.SYSTEM_IV, reportNo)   
-  
+    
+  var encryptedReportNo = encrypt(process.env.SYSTEM_KEY, process.env.SYSTEM_IV, reportNo)     
   return cb(null, { status: 'OK', url: `https://connect.ypii.com/prod/covid/result?id=${encryptedReportNo}` });
 }
 
@@ -29,7 +25,6 @@ function createResultPackage (args, cb) {
     return cb(null, { status: 'ERROR', message: `Data was not provided as an argument.` });
   }
 
-  console.log(`The data provided: ${data}`)
   var decryptionResult = decrypt(process.env.SYSTEM_KEY, process.env.SYSTEM_IV, data);  
   var reportNo = decryptionResult.decryptedResult;
   getResultInfo(reportNo, function (error, resultInfo) {    
@@ -45,16 +40,13 @@ function createResultPackage (args, cb) {
   });  
 }
 
-function decryptData(args, cb) {
-  console.log(`Running decryptUrl`)
-
+function decryptData(args, cb) {  
   var data = args[0].data;
   if (!data) {
     console.log(`Data was not provided as an argument.`);
     return cb(null, { status: 'ERROR', message: `Data was not provided as an argument.` });
   }
-
-  console.log(`The data provided: ${data}`)
+  
   var decryptionResult = decrypt(process.env.SYSTEM_KEY, process.env.SYSTEM_IV, data);
   console.log(decryptionResult)
   return cb(null, decryptionResult);

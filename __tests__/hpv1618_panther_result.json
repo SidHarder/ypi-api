@@ -1,0 +1,60 @@
+{
+  "jsonrpc": "2.0",
+  "method": "pantherOperation",
+  "params": [
+    {
+      "apiKey": "63f1d0de-83b4-4bf1-b2f7-38a80b8ebac0",
+      "pantherOperation": {
+        "method": "submitResult",
+        "patientId": "9999999",
+        "lastName": "MOUSE",
+        "firstName": "MICKEY",
+        "aliquotOrderId": "21-42315.1.2",
+        "testName": "GT HPV",
+        "testResults": [
+          {
+            "resultName": "IC/HPV 16 RLU",
+            "resultValue": "254668"
+          },
+          {
+            "resultName": "HPV 16 S/CO",
+            "resultValue": "0.36"
+          },
+          {
+            "resultName": "HPV 16 Result",
+            "resultValue": "Negative"
+          },
+          {
+            "resultName": "HPV 18/45 RLU",
+            "resultValue": "3676"
+          },
+          {
+            "resultName": "HPV 18/45 S/CO",
+            "resultValue": "0.01"
+          },
+          {
+            "resultName": "HPV 18/45 Result",
+            "resultValue": "Positive"
+          },
+          {
+            "resultName": "ICInterpretation",
+            "resultValue": "Valid"
+          },
+          {
+            "resultName": "HPV 16 Cutoff",
+            "resultValue": ""
+          },
+          {
+            "resultName": "HPV 18/45 Cutoff",
+            "resultValue": ""
+          },
+          {
+            "resultName": "IC Cutoff",
+            "resultValue": ""
+          }
+        ]
+      }
+    }
+  ],
+  "id": "30c5eaed-063a-4d1e-8ce5-bdcfe74526a1"
+}

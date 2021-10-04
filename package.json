@@ -4,7 +4,7 @@
   "description": "YPI Connect",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,5 +27,14 @@
     "qrcode": "^1.4.4",
     "speakeasy": "^2.0.0",
     "twilio": "^3.54.1"
+  },
+  "devDependencies": {
+    "jest": "^27.2.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

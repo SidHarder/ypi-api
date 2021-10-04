@@ -1,4 +1,6 @@
 const moment = require('moment');
+
+const sarscov2Handler = require('./sarscov2_handler');
 const hpv1618Handler = require('./hpv1618_handler');
 
 const pantherOperation = {};
@@ -14,19 +16,18 @@ function processPantherOperation(args, cb) {
   }
 }
 
-function submitResult (args, cb) {
-  console.log(`Received Panther Result: `);
-  console.log(args);
-
+function submitResult (args, cb) {  
   switch(args.testName) {
-    case 'GT HPV':
-      hpv1618Handler.handleResult(args, cb);
+    case 'SARSCoV2':
+      sarscov2Handler.handleResult(args, cb);      
       break;
-  }
-
-  cb(null, { status: 'Panther result has been submitted.' })
+    //case 'GT HPV':
+    //  hpv1618Handler.handleResult(args, cb);
+    //  break;
+    default:
+      cb(null, { status: 'ERROR', message: 'Test Type provided is not supported.' });
+  }  
 }
-
 
 pantherOperation.submitResult = submitResult;
 pantherOperation.processPantherOperation = processPantherOperation;
