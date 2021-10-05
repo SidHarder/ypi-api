@@ -6,6 +6,7 @@ const sarscov2Handler = {}
 var instrumentResultName = 'CoVResult';
 
 var resultMapping = [
+    { result: 'Invalid', code: 'SARSCOV2NVLD', comment: 'The result of this test was invalid. Please submit a new specimen for further testing.' },
     { result: 'Negative', code: 'SARSCOV2NGTV' },
     { result: 'POSITIVE', code: 'SARSCOV2PSTV' }
   ];
@@ -15,22 +16,26 @@ function handleResult(args, cb) {
   var mappedResult = resultMapping.find((r) => r.result == instrumentResult.resultValue);    
 
   var sql = `Update tblAPTIMASARSCoV2TestOrder r Inner Join tblPanelSetOrder pso on r.ReportNo = pso.ReportNo Set Result = '${mappedResult.result}', `
-    + `ResultCode = '${mappedResult.code}' `    
-    + `Where pso.OrderedOnId = '${args.aliquotOrderId}' and pso.Accepted = 0; `;
+    + `ResultCode = '${mappedResult.code}' `;
+
+  if (mappedResult.result == 'Invalid') {
+    sql += `, Comment = '${mappedResult.comment}' `;
+  }
+
+  sql += `Where pso.OrderedOnId = '${args.aliquotOrderId}' and pso.Accepted = 0; `;
 
   sql += `Update tblPanelSetOrder set `
     + `Accepted = 1, `
     + `AcceptedBy = 'AUTOVER TESTING', `
     + `AcceptedById = 5134, `
     + `AcceptedDate = '${moment().format("YYYY-MM-DD")}', `
-    + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}', `  
+    + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}', `    
     + `Final = 1, `
     + `Signature = 'AUTOVER TESTING', `
     + `FinaledById = 5134, `
     + `FinalDate = '${moment().format("YYYY-MM-DD")}', `
-    + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;  
-  
-  sql +=  `where PanelSetId = 415 and Accepted = 0 and OrderedOnId = '${args.aliquotOrderId}';`;  
+    + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `
+    + `where PanelSetId = 415 and Accepted = 0 and OrderedOnId = '${args.aliquotOrderId}';`;  
 
   db.executeSqlCommand(sql, function (error, result) {
     if (error) return cb(null, error);
