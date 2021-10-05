@@ -23,15 +23,12 @@ function handleResult(args, cb) {
     + `AcceptedBy = 'AUTOVER TESTING', `
     + `AcceptedById = 5134, `
     + `AcceptedDate = '${moment().format("YYYY-MM-DD")}', `
-    + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;
-  
-  if (mappedResult.result != 'POSITIVE') {
-    sql += `, Final = 1, `
-      + `Signature = 'AUTOVER TESTING', `
-      + `FinaledById = 5134, `
-      + `FinalDate = '${moment().format("YYYY-MM-DD")}', `
-      + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;
-  }
+    + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}', `  
+    + `Final = 1, `
+    + `Signature = 'AUTOVER TESTING', `
+    + `FinaledById = 5134, `
+    + `FinalDate = '${moment().format("YYYY-MM-DD")}', `
+    + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;  
   
   sql +=  `where PanelSetId = 415 and Accepted = 0 and OrderedOnId = '${args.aliquotOrderId}';`;  
 
