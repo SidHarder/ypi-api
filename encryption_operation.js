@@ -7,8 +7,7 @@ const encryptionOperation = {}
 
 function createResultUrl (args, cb) {
   var reportNo = args[0].reportNo;
-  if (!reportNo) {
-    console.log(`A reportNo was not provided as an argument.`);
+  if (!reportNo) {    
     return cb(null, { status: 'ERROR', message: `A reportNo was not provided as an argument.` });
   }
     
@@ -16,12 +15,9 @@ function createResultUrl (args, cb) {
   return cb(null, { status: 'OK', url: `https://connect.ypii.com/prod/covid/result?id=${encryptedReportNo}` });
 }
 
-function createResultPackage (args, cb) {
-  console.log(`Running createResultPackage`)
-
+function createResultPackage (args, cb) {  
   var data = args[0].data;
-  if (!data) {
-    console.log(`Data was not provided as an argument.`);
+  if (!data) {    
     return cb(null, { status: 'ERROR', message: `Data was not provided as an argument.` });
   }
 
@@ -42,13 +38,11 @@ function createResultPackage (args, cb) {
 
 function decryptData(args, cb) {  
   var data = args[0].data;
-  if (!data) {
-    console.log(`Data was not provided as an argument.`);
+  if (!data) {    
     return cb(null, { status: 'ERROR', message: `Data was not provided as an argument.` });
   }
   
-  var decryptionResult = decrypt(process.env.SYSTEM_KEY, process.env.SYSTEM_IV, data);
-  console.log(decryptionResult)
+  var decryptionResult = decrypt(process.env.SYSTEM_KEY, process.env.SYSTEM_IV, data);  
   return cb(null, decryptionResult);
 }
 
@@ -62,48 +56,59 @@ function encryptResult (dateOfBirth, testResult) {
 }
 
 function getResultInfo(reportNo, cb) {
-  let sql = `select pso.ReportNo, ao.PFirstName, ao.PLastName, date_format(PBirthdate, '%Y%m%d') PBirthdate, date_format(ao.CollectionDate, '%Y%m%d') CollectionDate, sars.Result `;
+  let sql = `Select pso.ReportNo, ao.PFirstName, ao.PLastName, date_format(PBirthdate, '%Y%m%d') PBirthdate, date_format(ao.CollectionDate, '%Y%m%d') CollectionDate, sars.Result `;
 	sql += `from tblAccessionOrder ao `;
   sql += `join tblPanelSetOrder pso on ao.MasterAccessionNo = pso.MasterAccessionNo `;
   sql += `join tblSARSCoV2TestOrder sars on pso.ReportNo = sars.ReportNo `;
   sql += `where pso.reportNo = '${reportNo}';`;
 
+  sql += `Select pso.ReportNo, ao.PFirstName, ao.PLastName, date_format(PBirthdate, '%Y%m%d') PBirthdate, date_format(ao.CollectionDate, '%Y%m%d') CollectionDate, sars.Result `;
+  sql += `from tblAccessionOrder ao `;
+  sql += `join tblPanelSetOrder pso on ao.MasterAccessionNo = pso.MasterAccessionNo `;
+  sql += `join tblAPTIMASARSCoV2TestOrder sars on pso.ReportNo = sars.ReportNo `;
+  sql += `where pso.reportNo = '${reportNo}';`;
+
+  console.log(sql);
   db.executeSqlCommand(sql, function (error, result) {
     if (error) return cb(null, error)
-    if (result.queryResult.length > 0) {      
-      let resultInfo = {
-        reportNo: reportNo,
-        lastName: result.queryResult[0].PLastName,
-        firstName: result.queryResult[0].PFirstName,
-        dateOfBirth: result.queryResult[0].PBirthdate,
-        collectionDate: result.queryResult[0].CollectionDate,
-        result: result.queryResult[0].Result
-      }      
-      cb(null, resultInfo)
-    } else {
-      cb(`ReportNo not found: ${reportNo}`);
+
+    console.log(result);
+    var sarsResult = {};
+    if (result.queryResult[0].length > 0) {
+      sarsResult = result.queryResult[0][0];
+    } else if (result.queryResult[1].length > 0) {
+      sarsResult = result.queryResult[1][0];
     }
-  })
+
+    let resultInfo = {
+      reportNo: reportNo,
+      lastName: sarsResult.PLastName,
+      firstName: sarsResult.PFirstName,
+      dateOfBirth: sarsResult.PBirthdate,
+      collectionDate: sarsResult.CollectionDate,
+      result: sarsResult.Result
+    }      
+    cb(null, resultInfo)
+    
+    //} else {
+    // cb(`ReportNo not found: ${reportNo}`);
+    //}
+  });
 }
 
-function decryptResult (args, cb) {
-  console.log(`Running decryptResult`)
-
+function decryptResult (args, cb) {  
   var iv = args[0].iv;
-  if (!iv) {
-    console.log(`IV was not provided as an argument.`);
+  if (!iv) {    
     return cb(null, { status: 'ERROR', message: `IV was not provided as an argument.` });
   }
 
   var dateOfBirth = args[0].dateOfBirth;
-  if (!dateOfBirth) {
-    console.log(`dateOfBirth was not provided as an argument.`);
+  if (!dateOfBirth) {    
     return cb(null, { status: 'ERROR', message: `dateOfBirth was not provided as an argument.` });
   }
 
   var data = args[0].data;
-  if (!data) {
-    console.log(`data was not provided as an argument.`);
+  if (!data) {    
     return cb(null, { status: 'ERROR', message: `data was not provided as an argument.` });
   }
 
@@ -121,8 +126,7 @@ function decrypt(cryptkey, iv, encryptdata) {
     let decrypted = decipher.update(encryptdata, 'hex', 'utf8')
     decrypted += decipher.final('utf8')
     return { status: 'OK', decryptedResult: decrypted, keyIsCorrect: true }
-  } catch (ex) {
-    console.log(ex)
+  } catch (ex) {    
     return { status: 'ERROR', keyIsCorrect: false }
   }  
 }

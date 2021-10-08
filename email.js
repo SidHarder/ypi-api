@@ -15,22 +15,19 @@ var mailConfig = {
 
 var email = {};
 
-async function send (args, cb) {
+function send (args, cb) {
   var emailAddress = args[0].emailAddress;
-  if (!emailAddress) {
-    console.log(`An email address was not provided as an argument.`);
+  if (!emailAddress) {    
     return cb(null, { status: 'ERROR', message: `An email address was not provided as an argument.` });
   }
 
   var subject = args[0].subject;
-  if (!subject) {
-    console.log(`A subject was not provided as an argument.`);
+  if (!subject) {    
     return cb(null, { status: 'ERROR', message: `A subject was not provided as an argument.` });
   }
 
   var message = args[0].message;
-  if (!message) {
-    console.log(`A message was not provided as an argument.`);
+  if (!message) {    
     return cb(null, { status: 'ERROR', message: `A message was not provided as an argument.` });
   }
 
@@ -43,8 +40,13 @@ async function send (args, cb) {
     html: `<p>${message}</p>`
   }
 
-  let info = await transporter.sendMail(emailContent)  
-  cb(null, { status: 'OK', message: `An email was sent to: ${emailAddress}` })
+  transporter.sendMail(emailContent, function (error, info) {    
+    if(error) {      
+      console.error(error);
+      return cb(null, { status: 'ERROR', message: error.message });
+    } 
+    return cb(null, { status: 'OK', info });
+  })    
 }
 
 email.send = send;
