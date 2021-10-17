@@ -88,11 +88,7 @@ function getResultInfo(reportNo, cb) {
       collectionDate: sarsResult.CollectionDate,
       result: sarsResult.Result
     }      
-    cb(null, resultInfo)
-    
-    //} else {
-    // cb(`ReportNo not found: ${reportNo}`);
-    //}
+    cb(null, resultInfo)  
   });
 }
 

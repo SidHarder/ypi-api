@@ -22,7 +22,7 @@ function sendText(args, cb) {
   }
 
   encryptionOperation.createResultUrl([{ reportNo: reportNo }], function (error, result) {       
-    var message = `${firstName}, this is Yellowstone Pathology Institute.  Your SARS-CoV-2 PCR test result is ready.  Please click on the following link to review your result: ${result.url}`;
+    var message = `${firstName}, your COVID test result is ready.  Click here: ${result.url}`;
     textMessage.send([{ phoneNumber: phoneNumber, message: message }], function (error, result) {      
       cb(null, { status: 'OK', message: 'A text was sent.' })
     })    

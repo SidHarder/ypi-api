@@ -6,14 +6,14 @@ const sarscov2Handler = {}
 var instrumentResultName = 'CoVResult';
 
 var resultMapping = [
-    { result: 'Invalid', code: 'SARSCOV2NVLD', comment: 'The result of this test was invalid. Please submit a new specimen for further testing.' },
-    { result: 'Negative', code: 'SARSCOV2NGTV' },
-    { result: 'POSITIVE', code: 'SARSCOV2PSTV' }
-  ];
+  { instrumentResult: 'Invalid', result: 'Invalid', code: 'SARSCOV2NVLD', comment: 'The result of this test was invalid. Please submit a new specimen for further testing.', okToFinal: false },
+  { instrumentResult: 'Negative', result: 'Negative', code: 'SARSCOV2NGTV', okToFinal: true },  
+  { instrumentResult: 'Positive', result: 'Positive', code: 'SARSCOV2PSTV', okToFinal: false }
+];
 
-function handleResult(args, cb) {
-  var instrumentResult = args.testResults.find((r) => r.resultName == instrumentResultName);  
-  var mappedResult = resultMapping.find((r) => r.result == instrumentResult.resultValue);    
+function handleResult(args, cb) {  
+  var instrumentResult = args.testResults.find((r) => r.resultName == instrumentResultName);    
+  var mappedResult = resultMapping.find((r) => r.instrumentResult == instrumentResult.resultValue);
 
   var sql = `Update tblAPTIMASARSCoV2TestOrder r Inner Join tblPanelSetOrder pso on r.ReportNo = pso.ReportNo Set Result = '${mappedResult.result}', `
     + `ResultCode = '${mappedResult.code}' `;
@@ -22,24 +22,28 @@ function handleResult(args, cb) {
     sql += `, Comment = '${mappedResult.comment}' `;
   }
 
-  sql += `Where pso.OrderedOnId = '${args.aliquotOrderId}' and pso.Accepted = 0; `;
+  sql += `Where pso.ReportNo = '${args.reportNo}' and pso.Accepted = 0; `;
 
-  sql += `Update tblPanelSetOrder set `
+  sql += `Update tblPanelSetOrder set `    
     + `Accepted = 1, `
     + `AcceptedBy = 'AUTOVER TESTING', `
     + `AcceptedById = 5134, `
     + `AcceptedDate = '${moment().format("YYYY-MM-DD")}', `
-    + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}', `    
-    + `Final = 1, `
+    + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;
+    
+  if (mappedResult.okToFinal == true) {
+    sql += `, Final = 1, `
     + `Signature = 'AUTOVER TESTING', `
     + `FinaledById = 5134, `
     + `FinalDate = '${moment().format("YYYY-MM-DD")}', `
     + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `
-    + `where PanelSetId = 415 and Accepted = 0 and OrderedOnId = '${args.aliquotOrderId}';`;  
+  }
+    
+  sql += `where Accepted = 0 and reportNo = '${args.reportNo}';`;  
 
   db.executeSqlCommand(sql, function (error, result) {
     if (error) return cb(null, error);
-    cb(null, { status: 'OK', message: `The Instrument result for ${args.aliquotOrderId}` });
+    cb(null, { status: 'OK', message: sql });
   });
 }
 
