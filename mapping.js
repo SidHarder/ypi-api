@@ -59,6 +59,49 @@ function convertBoolean(value) {
   return result
 }
 
+function convertToCamelCase(columnName) {
+  return `${columnName[0].toLowerCase()}${columnName.substr(1)}`;
+}
+
+function toCamelCase(tableMapping, sqlResult) {
+  var result = { rowOperationType: 'Update' };
+  tableMapping.forEach(function (column, index) {
+    var value = sqlResult[column.columnName];
+    if (column.dataType == 'tinyint') value = mapping.convertSQLBooleanToJSON(value);
+    if (column.dataType == 'datetime') value = mapping.convertSQLDateTimeToJSON(value);
+    if (column.dataType == 'varchar') value = mapping.handleJsonValue(value);
+    //if (column.dataType == 'json') value = mapping.handleJsonObjectValue(value);
+    result[column.camelCase] = value;
+  });  
+
+  return result;
+}
+
+function convertSQLBooleanToJSON(value) {
+  let result = value
+  if (value) {
+    if (value == 1) {
+      result = true
+    } else if (value.toUpperCase() == "FALSE" || value.toUpperCase() == "NO") {
+      result = false
+    }
+  } else {
+    result = false
+  }
+  return result
+}
+
+function convertSQLDateTimeToJSON(value) {
+  if (value == undefined || value == '') {
+    return null;
+  } else {
+    return moment(value).format('YYYYMMDDHHmmss');
+  }
+}
+
+mapping.convertSQLBooleanToJSON = convertSQLBooleanToJSON;
+mapping.convertSQLDateTimeToJSON = convertSQLDateTimeToJSON;
+mapping.convertToCamelCase = convertToCamelCase;
 mapping.getMapping = getMapping
 mapping.handleSqlValue = handleSqlValue
 mapping.handleJsonValue = handleJsonValue

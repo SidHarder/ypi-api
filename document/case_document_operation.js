@@ -3,6 +3,7 @@ var fs = require('fs');
 const PDFDocument = require('pdfkit');
 
 var caseDocumentHeader = require('./case_document_header');
+const accessionOrder = require('../accessionOrder.js');
 const caseDocumentOperation = {}
 
 var operationMap = [
@@ -32,25 +33,28 @@ function getCaseDocument(args, cb) {
 }
 
 function createCaseDocument (args, cb) {    
-  const doc = new PDFDocument();
-  doc.pipe(fs.createWriteStream('/home/sharder/pdf_files/output.pdf'));
-  caseDocumentHeader.forEach(documentElement => {
-    documentElement.forEach(fieldElement => {
-      doc
-        .font(fieldElement.font)
-        .fontSize(fieldElement.fontSize)
-        .text(fieldElement.text, fieldElement.x, fieldElement.y);
-    });
-  });
+  accessionOrder.getByMasterAccessionNo(args, function (error, ao) {
+    if (error) {
+      return cb(null, error)
+    }
 
-  /*
-  doc
-    .font('/usr/share/fonts/truetype/msttcorefonts/verdana.ttf')
-    .fontSize(25)
-    .text(doi, 100, 100);
-  */
-  doc.end();  
-  cb(null, { status: 'OK', message: `The case document has been created` });
+    var doc = new PDFDocument();
+    doc.pipe(fs.createWriteStream('/home/sharder/pdf_files/output.pdf'));
+    var headerFields = caseDocumentHeader.create();
+
+    headerFields.forEach(documentElement => {
+      documentElement.forEach(fieldElement => {
+        doc
+          .font(fieldElement.font)
+          .fontSize(fieldElement.fontSize)
+          .text(fieldElement.text, fieldElement.x, fieldElement.y);
+      });
+    });
+
+    doc.end();
+    cb(null, { status: 'OK', message: `The case document has been created` });
+
+  });  
 }
 
 caseDocumentOperation.processCaseDocumentOperation = processCaseDocumentOperation

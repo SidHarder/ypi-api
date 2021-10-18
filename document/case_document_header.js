@@ -1,4 +1,6 @@
-const caseDocument = [];
+
+const caseDocumentHeader = [];
+
 var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
 
 var pageMargin = {
@@ -15,39 +17,46 @@ var headerTable = {
   rows: []
 };
 
-headerTable.columns.push({ left: headerTable.left + 5 });
-headerTable.columns.push({ left: headerTable.left + 50 });
-headerTable.columns.push({ left: headerTable.left + 200 });
+function create() {
+  var result = [];
 
-headerTable.rows.push({ top: headerTable.top + 5 });
+  headerTable.columns.push({ left: headerTable.left + 5 });
+  headerTable.columns.push({ left: headerTable.left + 50 });
+  headerTable.columns.push({ left: headerTable.left + 200 });
 
-var patient = [
-  {
-    text: 'Patient:',
-    font: verdana,
-    x: headerTable.columns[0].left,
-    y: headerTable.rows[0].top,
-    fontSize: 10
-  },
-  {
-    text: 'Mickey E. Mouse',
-    font: verdana,
-    x: headerTable.columns[1].left,
-    y: headerTable.rows[0].top,
-    fontSize: 12
-  }
-]
+  headerTable.rows.push({ top: headerTable.top + 5 });
 
-var dateOfBirth = [
-  {
-    text: '(10/1/1966)',
-    font: verdana,
-    x: headerTable.columns[2].left,
-    y: headerTable.rows[0].top,
-    fontSize: 10
-  }
-]
+  var patient = [
+    {
+      text: 'Patient:',
+      font: verdana,
+      x: headerTable.columns[0].left,
+      y: headerTable.rows[0].top,
+      fontSize: 10
+    },
+    {
+      text: 'Mickey E. Mouse',
+      font: verdana,
+      x: headerTable.columns[1].left,
+      y: headerTable.rows[0].top,
+      fontSize: 12
+    }
+  ]
 
-caseDocument.push(patient);
-caseDocument.push(dateOfBirth);
-module.exports = caseDocument;
+  var dateOfBirth = [
+    {
+      text: '(10/1/1966)',
+      font: verdana,
+      x: headerTable.columns[2].left,
+      y: headerTable.rows[0].top,
+      fontSize: 10
+    }
+  ]
+
+  result.push(patient);
+  result.push(dateOfBirth);
+  return result;
+}
+
+caseDocumentHeader.create = create;
+module.exports = caseDocumentHeader;

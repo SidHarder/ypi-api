@@ -1,10 +1,11 @@
+const dotenv = require('dotenv').config();
 const fs = require('fs')
-const db = require('./db.js')
+const db = require('./database_operation.js')
 const mapping = require('./mapping')
-const localSettings = require('./local_settings.json')
 
 function writeMappingFiles(tableName) {
-  let sql = 'select column_name `columnName`, column_default `columnDefault`, is_nullable `isNullable`, data_type `dataType`, column_key `columnKey` ' + "from information_schema.columns where table_name = '" + tableName + "' and table_schema = '" + localSettings.mySql.database + "'" + 'order by column_name;'
+  let sql = `select column_name columnName, column_default columnDefault, is_nullable isNullable, data_type dataType, column_key columnKey `
+    + `from information_schema.columns where table_name = '${tableName}' and table_schema = 'lis' order by column_name;`;
 
   db.executeSqlCommand(sql, function (error, result) {
     if (error) return cb(error)
@@ -28,16 +29,8 @@ function writeMappingFiles(tableName) {
 }
 
 function convertToCamelCase(columnName) {
-  let result = ''
-  var underscoreSplit = columnName.split('_')
-  for (let i = 0; i < underscoreSplit.length; i++) {
-    if (i == 0) {
-      result += underscoreSplit[i]
-    } else {
-      result += underscoreSplit[i].substr(0, 1).toUpperCase() + underscoreSplit[i].substr(1)
-    }
-  }
-  return result
+  return `${columnName[0].toLowerCase()}${columnName.substr(1)}`;
 }
 
 writeMappingFiles('tblWebServiceAccount')
+writeMappingFiles('tblAccessionOrder');
