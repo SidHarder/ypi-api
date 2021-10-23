@@ -1,6 +1,8 @@
+var moment = require('moment');
 
-const caseDocumentHeader = [];
+var accessionOrderHandler = require('../accession_order_handler')
 
+var caseDocumentHeader = [];
 var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
 
 var pageMargin = {
@@ -17,14 +19,19 @@ var headerTable = {
   rows: []
 };
 
-function create() {
+function create(accessionOrder) {
   var result = [];
 
   headerTable.columns.push({ left: headerTable.left + 5 });
-  headerTable.columns.push({ left: headerTable.left + 50 });
-  headerTable.columns.push({ left: headerTable.left + 200 });
+  headerTable.columns.push({ left: headerTable.left + 60 });
+  headerTable.columns.push({ left: headerTable.left + 400 });
+  headerTable.columns.push({ left: headerTable.left + 480 });
 
-  headerTable.rows.push({ top: headerTable.top + 5 });
+  headerTable.rows.push({ top: headerTable.top + 0 });
+  headerTable.rows.push({ top: headerTable.top + 20 });
+  headerTable.rows.push({ top: headerTable.top + 40 });
+
+  
 
   var patient = [
     {
@@ -35,7 +42,7 @@ function create() {
       fontSize: 10
     },
     {
-      text: 'Mickey E. Mouse',
+      text: getPatientName(accessionOrder),
       font: verdana,
       x: headerTable.columns[1].left,
       y: headerTable.rows[0].top,
@@ -45,17 +52,76 @@ function create() {
 
   var dateOfBirth = [
     {
-      text: '(10/1/1966)',
+      text: getCaseHeaderDateOfBirth(accessionOrder),
       font: verdana,
       x: headerTable.columns[2].left,
       y: headerTable.rows[0].top,
+      fontSize: 10
+    }    
+  ]
+
+  var provider = [
+    {
+      text: 'Provider:',
+      font: verdana,
+      x: headerTable.columns[0].left,
+      y: headerTable.rows[1].top,
+      fontSize: 10
+    },
+    {
+      text: accessionOrder.physicianName,
+      font: verdana,
+      x: headerTable.columns[1].left,
+      y: headerTable.rows[1].top,
+      fontSize: 10
+    },
+    {
+      text: accessionOrder.clientName,
+      font: verdana,
+      x: headerTable.columns[1].left,
+      y: headerTable.rows[2].top,
+      fontSize: 10
+    }
+  ]
+
+  var dateOfReport = [
+    {
+    text: 'Date of report:',
+      font: verdana,
+      x: headerTable.columns[2].left,
+      y: headerTable.rows[1].top,
+      fontSize: 10
+    },
+    {
+      text: moment(accessionOrder.accessionTime).format('MM-DD-YYYY hh:mm'),
+      font: verdana,
+      x: headerTable.columns[3].left,
+      y: headerTable.rows[1].top,
       fontSize: 10
     }
   ]
 
   result.push(patient);
-  result.push(dateOfBirth);
+  //result.push(dateOfBirth);
+  result.push(provider);
+  result.push(dateOfReport);
   return result;
+}
+
+function getCaseHeaderDateOfBirth(accessionOrder) {
+  var dob = moment(accessionOrder.pBirthdate, 'YYYY-MM-DD hh:mm:ss');
+  var age = moment().diff(dob, 'years');
+  var result = 'DOB';
+
+  if (accessionOrder.pBirthdate) {
+    result = `(DOB ${dob.format('MM/DD/YYYY')} ${age}YO ${accessionOrder.pSex})`;
+  }
+  return result;
+}
+
+function getPatientName(accessionOrder) {
+  var patientName = `${accessionOrder.pLastName}, ${accessionOrder.pFirstName}`;
+  return patientName;
 }
 
 caseDocumentHeader.create = create;

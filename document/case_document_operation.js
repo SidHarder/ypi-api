@@ -3,7 +3,7 @@ var fs = require('fs');
 const PDFDocument = require('pdfkit');
 
 var caseDocumentHeader = require('./case_document_header');
-const accessionOrder = require('../accessionOrder.js');
+const accessionOrderHandler = require('../accession_order_handler.js');
 const caseDocumentOperation = {}
 
 var operationMap = [
@@ -21,7 +21,6 @@ function processCaseDocumentOperation(args, cb) {
 }
 
 function getCaseDocument(args, cb) {
-  console.log(args.fileName)
   var fileName = args.fileName
   fs.readFile(fileName, function (error, data) {
     if (error) {
@@ -33,14 +32,15 @@ function getCaseDocument(args, cb) {
 }
 
 function createCaseDocument (args, cb) {    
-  accessionOrder.getByMasterAccessionNo(args, function (error, ao) {
+  accessionOrderHandler.getByMasterAccessionNo(args, function (error, result) {
     if (error) {
       return cb(null, error)
     }
 
-    var doc = new PDFDocument();
+    var margins = { margins: { top: 5, bottom: 5, left: 5, right: 5 } }
+    var doc = new PDFDocument(margins);
     doc.pipe(fs.createWriteStream('/home/sharder/pdf_files/output.pdf'));
-    var headerFields = caseDocumentHeader.create();
+    var headerFields = caseDocumentHeader.create(result.accessionOrder);
 
     headerFields.forEach(documentElement => {
       documentElement.forEach(fieldElement => {

@@ -1,4 +1,5 @@
 const fs = require('fs')
+const moment = require('moment');
 
 const mapping = {}
 
@@ -78,16 +79,12 @@ function toCamelCase(tableMapping, sqlResult) {
 }
 
 function convertSQLBooleanToJSON(value) {
-  let result = value
-  if (value) {
-    if (value == 1) {
-      result = true
-    } else if (value.toUpperCase() == "FALSE" || value.toUpperCase() == "NO") {
-      result = false
-    }
+  let result = value  
+  if (value == 1) {
+    result = true
   } else {
     result = false
-  }
+  }  
   return result
 }
 
@@ -95,15 +92,16 @@ function convertSQLDateTimeToJSON(value) {
   if (value == undefined || value == '') {
     return null;
   } else {
-    return moment(value).format('YYYYMMDDHHmmss');
+    return moment(value).format('YYYY-MM-DD hh:mm:ss');
   }
 }
 
 mapping.convertSQLBooleanToJSON = convertSQLBooleanToJSON;
 mapping.convertSQLDateTimeToJSON = convertSQLDateTimeToJSON;
 mapping.convertToCamelCase = convertToCamelCase;
-mapping.getMapping = getMapping
-mapping.handleSqlValue = handleSqlValue
-mapping.handleJsonValue = handleJsonValue
+mapping.getMapping = getMapping;
+mapping.handleSqlValue = handleSqlValue;
+mapping.handleJsonValue = handleJsonValue;
+mapping.toCamelCase = toCamelCase;
 
 module.exports = mapping

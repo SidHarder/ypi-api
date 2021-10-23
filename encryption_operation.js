@@ -68,11 +68,12 @@ function getResultInfo(reportNo, cb) {
   sql += `join tblAPTIMASARSCoV2TestOrder sars on pso.ReportNo = sars.ReportNo `;
   sql += `where pso.reportNo = '${reportNo}';`;
 
-  console.log(sql);
   db.executeSqlCommand(sql, function (error, result) {
-    if (error) return cb(null, error)
+    if (error) {
+      console.error(error);
+      return cb(null, error)
+    }
 
-    console.log(result);
     var sarsResult = {};
     if (result.queryResult[0].length > 0) {
       sarsResult = result.queryResult[0][0];

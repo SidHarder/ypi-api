@@ -68,7 +68,7 @@ function executeSqlCommand(commandText, cb) {
       console.error(error)
       return cb(null, { status: 'ERROR', message: error })
     }
-    return cb(null, { status: 'OK', message: 'Success.', queryResult: results })
+    return cb(null, { status: 'OK', results })
   })
 }
 

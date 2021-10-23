@@ -11,6 +11,7 @@ const billingOperation = require('./billing_operation');
 const distributionOperation = require('./distribution_operation');
 const pantherOperation = require('./panther/panther_operation');
 const caseDocumentOperation = require('./document/case_document_operation');
+const domainOperation = require('./domain_operation');
 
 const server = jayson.server({
   ping: ping,
@@ -27,7 +28,8 @@ const server = jayson.server({
   billingOperation: billingOperation.processBillingOperation,
   distributionOperation: distributionOperation.processDistributionOperation,
   pantherOperation: pantherOperation.processPantherOperation,
-  caseDocumentOperation: caseDocumentOperation.processCaseDocumentOperation  
+  caseDocumentOperation: caseDocumentOperation.processCaseDocumentOperation,
+  domainOperation: domainOperation.processDomainOperation
 });
 
 function ping(args, cb) {
