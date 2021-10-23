@@ -71,11 +71,12 @@ function IsUsernamePasswordValid(userName, password, cb) {
   console.log(`Running: IsUsernamePasswordValid.`)
   getWebServiceAccountByUsernamePassword(userName, password, function (error, queryResult) {
     if (error) return cb(error)
-    if (queryResult[0].length == 0) {
+    console.log(queryResult)
+    if (queryResult.length == 0) {
       console.log(`Failure: Search by Username and password did not succeed.`)
       cb(null, false)
     } else {
-      console.log(`Success: Search by Username and password succeeded.`)
+      console.log(`Success: Search by Username and password succeeded.`)      
       cb(null, true, queryResult[0][0], queryResult[1], queryResult[2], queryResult[3])
     }
   })
@@ -89,9 +90,8 @@ function getWebServiceAccountByUsernamePassword(userName, password, cb) {
   commandText += `select * from tblClientGroupClient where clientId = (select primaryClientId from tblWebServiceAccount where UserName = '${userName}' and Password = '${password}');`;
   
   db.executeSqlCommand(commandText, function (error, result) {
-    if (error) return cb(error)
-    console.log(result)
-    return cb(null, result.queryResult)
+    if (error) return cb(error)        
+    return cb(null, result.results)
   })
 }
 
