@@ -75,10 +75,10 @@ function getResultInfo(reportNo, cb) {
     }
 
     var sarsResult = {};
-    if (result.queryResult[0].length > 0) {
-      sarsResult = result.queryResult[0][0];
-    } else if (result.queryResult[1].length > 0) {
-      sarsResult = result.queryResult[1][0];
+    if (result.results[0].length > 0) {
+      sarsResult = results.result[0][0];
+    } else if (result.results[1].length > 0) {
+      sarsResult = result.results[1][0];
     }
 
     let resultInfo = {
