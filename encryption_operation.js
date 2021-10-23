@@ -76,7 +76,7 @@ function getResultInfo(reportNo, cb) {
 
     var sarsResult = {};
     if (result.results[0].length > 0) {
-      sarsResult = results.result[0][0];
+      sarsResult = result.results[0][0];
     } else if (result.results[1].length > 0) {
       sarsResult = result.results[1][0];
     }
