@@ -8,7 +8,7 @@ var hpv18InstrumentResultName = 'HPV 18/45 Result';
 
 var resultMapping = [
   { instrumentResult: 'Negative', result: 'Negative', code: 'HPV1618G16NGTV', okToFinal: true },
-  { instrumentResult: 'Positive', result: 'Positive', code: 'HPV1618G16PSTV', okToFinal: false },
+  { instrumentResult: 'POSITIVE', result: 'Positive', code: 'HPV1618G16PSTV', okToFinal: false },
   { instrumentResult: 'Invalid', result: 'Invalid', code: 'HPV1618G16NVLD', okToFinal: false }
 ];
 
