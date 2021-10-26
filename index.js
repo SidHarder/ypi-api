@@ -12,6 +12,7 @@ const distributionOperation = require('./distribution_operation');
 const pantherOperation = require('./panther/panther_operation');
 const caseDocumentOperation = require('./document/case_document_operation');
 const domainOperation = require('./domain_operation');
+const reportData = require('./report_data/report_data_operation');
 
 const server = jayson.server({
   ping: ping,
@@ -29,7 +30,8 @@ const server = jayson.server({
   distributionOperation: distributionOperation.processDistributionOperation,
   pantherOperation: pantherOperation.processPantherOperation,
   caseDocumentOperation: caseDocumentOperation.processCaseDocumentOperation,
-  domainOperation: domainOperation.processDomainOperation
+  domainOperation: domainOperation.processDomainOperation,
+  reportDataOperation: reportData.processReportDataOperation
 });
 
 function ping(args, cb) {
