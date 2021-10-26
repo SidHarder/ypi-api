@@ -13,6 +13,9 @@ var resultMapping = [
 ];
 
 function handleResult(args, cb) {
+  var aliquotOrderId = args.aliquotOrderId;
+  var masterAccessionNo = aliquotOrderId.split('.')[0];
+
   var hpv16InstrumentResult = args.testResults.find((r) => r.resultName == hpv16InstrumentResultName);
   var hpv18InstrumentResult = args.testResults.find((r) => r.resultName == hpv18InstrumentResultName);
   
@@ -25,7 +28,7 @@ function handleResult(args, cb) {
     + `HPV16ResultCode = '${mappedHPV16Result.code}', `
     + `HPV18Result = '${mappedHPV18Result.result}', `
     + `HPV18ResultCode = '${mappedHPV18Result.code}' `
-    + `Where pso.ReportNo = '${args.reportNo}' and pso.Accepted = 0; `;
+    + `Where pso.MasterAccessionNo = '${masterAccessionNo}' and pso.panelSetId = 62 and pso.Accepted = 0; `;
 
   sql += `Update tblPanelSetOrder set `    
     + `Accepted = 1, `
@@ -42,7 +45,7 @@ function handleResult(args, cb) {
       + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;
   }
   
-  sql +=  `where Accepted = 0 and ReportNo = '${args.reportNo}';`;  
+  sql +=  `where Accepted = 0 and masterAccessionNo = '${masterAccessionNo}' and panelSetId = 62;`;  
 
   db.executeSqlCommand(sql, function (error, result) {
     if (error) return cb(null, error);
