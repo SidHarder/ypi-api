@@ -47,7 +47,8 @@ function getClientCovidCases (args, cb) {
       console.error(error);
       return cb(null, { status: 'ERROR', error });
     }
-    cb(null, { status: 'OK', result });
+    
+    cb(null, { status: 'OK', results: result.results });
   })  
 }
 
