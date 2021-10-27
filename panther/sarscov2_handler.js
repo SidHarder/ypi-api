@@ -8,7 +8,7 @@ var instrumentResultName = 'CoVResult';
 var resultMapping = [
   { instrumentResult: 'Invalid', result: 'Invalid', code: 'SARSCOV2NVLD', comment: 'The result of this test was invalid. Please submit a new specimen for further testing.', okToFinal: false },
   { instrumentResult: 'Negative', result: 'Negative', code: 'SARSCOV2NGTV', okToFinal: true },  
-  { instrumentResult: 'Positive', result: 'Positive', code: 'SARSCOV2PSTV', okToFinal: false }
+  { instrumentResult: 'POSITIVE', result: 'Positive', code: 'SARSCOV2PSTV', okToFinal: false }
 ];
 
 function handleResult(args, cb) {  
