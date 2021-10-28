@@ -36,7 +36,7 @@ function getClientCovidCases (args, cb) {
     return cb(null, { status: 'ERROR', message: `An endDate was not provided as an argument.` });
   }
 
-  var sql = `select ao.AccessionDate, pso.FinalDate, ao.PFirstName \`FirstName\`, ao.PLastName \`LastName\`, cov.Result, ao.ClientName, ao.PhysicianName ` +
+  var sql = `select pso.FinalDate, ao.PFirstName \`FirstName\`, ao.PLastName \`LastName\`, cov.Result, ao.ClientName, ao.PhysicianName ` +
     `from tblAccessionOrder ao ` +
     `join tblPanelSetOrder pso on ao.MasterAccessionNo = pso.MasterAccessionNo ` +
     `join tblAPTIMASARSCoV2TestOrder cov on pso.ReportNo = cov.reportNo ` +
