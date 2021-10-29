@@ -1,5 +1,6 @@
 const moment = require('moment');
 const db = require('../database_operation.js');
+const textMessage = require('./test_message');
 
 const sarscov2Handler = {}
 
@@ -39,11 +40,21 @@ function handleResult(args, cb) {
     + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `
   }
     
-  sql += `where Accepted = 0 and reportNo = '${args.reportNo}';`;  
+  sql += `where Accepted = 0 and reportNo = '${args.reportNo}';`;
+  sql += `Select clientId from tblAccessionOrder ao join tblPanelSetOrder pso on ao.MasterAccessionNo = pso.MasterAccessionNo where pso.ReportNo = '${args.reportNo}';`
 
   db.executeSqlCommand(sql, function (error, result) {
-    if (error) return cb(null, error);
-    cb(null, { status: 'OK', message: sql });
+    if (error) {
+      console.errror(error);
+      return cb(null, error);
+    }
+    if (mappedResult.code == 'SARSCOV2PSTV') {
+      console.log(result);
+      //textMessage.send({ phone: '4065462446', message: 'YPI ALERT: A Positve COVID result for your organization has been released.' })
+      cb(null, { status: 'OK', message: sql });
+    } else {
+      cb(null, { status: 'OK', message: sql });
+    }    
   });
 }
 
