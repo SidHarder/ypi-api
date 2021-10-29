@@ -53,7 +53,7 @@ function handleResult(args, cb) {
     console.log(`Result: ${mappedResult.code}`)
     if (mappedResult.code == 'SARSCOV2PSTV') {
       clientId = result.results[2][0];
-      console.log(`ClientId: ${clientId}`)
+      console.log(result.results[2][0]);
       if (clientId == '1805') {
         console.log(`Sending text due to Positive result to client: ${clientId}`);
         textMessage.send({ phone: '4065462446', message: 'YPI ALERT: A Positve COVID result for your organization has been detected.' }, function (error, result) {
