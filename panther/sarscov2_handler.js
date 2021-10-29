@@ -48,6 +48,8 @@ function handleResult(args, cb) {
       console.errror(error);
       return cb(null, error);
     }
+
+    console.log(`Result: ${mappedResult.code}`)
     if (mappedResult.code == 'SARSCOV2PSTV') {
       clientId = result.results[2][0];
       if (clientId == '1805') {
