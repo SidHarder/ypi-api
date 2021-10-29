@@ -49,7 +49,7 @@ function handleResult(args, cb) {
       return cb(null, error);
     }
     if (mappedResult.code == 'SARSCOV2PSTV') {
-      console.log(result.results[1]);
+      console.log(result.results[0][0]);
       //textMessage.send({ phone: '4065462446', message: 'YPI ALERT: A Positve COVID result for your organization has been released.' })
       cb(null, { status: 'OK', message: sql });
     } else {
