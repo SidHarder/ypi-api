@@ -1,6 +1,6 @@
 const moment = require('moment');
 const db = require('../database_operation.js');
-const textMessage = require('./test_message');
+const textMessage = require('./text_message');
 
 const sarscov2Handler = {}
 
