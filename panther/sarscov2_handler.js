@@ -48,15 +48,12 @@ function handleResult(args, cb) {
       console.errror(error);
       return cb(null, error);
     }
-
-    console.log(result);
-    console.log(`Result: ${mappedResult.code}`)
+    
     if (mappedResult.code == 'SARSCOV2PSTV') {
-      clientId = result.results[2][0].clientId;
-      console.log(result.results[2][0].clientId);
+      clientId = result.results[2][0].clientId;    
       if (clientId == 1805) {
         console.log(`Sending text due to Positive result to client: ${clientId}`);
-        textMessage.send({ phone: '4065462446', message: 'YPI ALERT: A Positve COVID result for your organization has been detected.' }, function (error, result) {
+        textMessage.send({ phoneNUmber: '4065462446', message: 'YPI ALERT: A Positve COVID result for your organization has been detected.' }, function (error, result) {
           if (error) {
             console.error(error);
             return cb(null, error);
