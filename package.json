@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/SidHarder/ypi_api#readme",
   "dependencies": {
+    "async": "^3.2.2",
     "crypto": "^1.0.1",
     "dotenv": "^8.6.0",
     "jayson": "^3.3.4",

@@ -17,6 +17,7 @@ const reportData = require('./report_data/report_data_operation');
 const server = jayson.server({
   ping: ping,
   sendTextMessage: textMessage.send,
+  sendMultipleTextMessages: textMessage.sendMultiple,
   sendEmail: email.send,
   authenticationOperation: authenticationOperation.processAuthenticationOperation,
   databaseOperation: databaseOperation.processDatabaseOperation,

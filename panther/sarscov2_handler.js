@@ -53,7 +53,7 @@ function handleResult(args, cb) {
       clientId = result.results[2][0].clientId;    
       if (clientId == 1805) {
         console.log(`Sending text due to Positive result to client: ${clientId}`);
-        textMessage.send([{ phoneNumber: '4065462446', message: 'YPI ALERT: A Positve COVID result for your organization has been detected.' }], function (error, result) {
+        textMessage.sendMultiple([{ phoneNumberNumbers: ['4065462446', '4063965675'], message: 'YPI ALERT: A Positve COVID result for your organization has been detected.' }], function (error, result) {
           if (error) {
             console.error(error);
             return cb(null, error);
