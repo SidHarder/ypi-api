@@ -6,19 +6,19 @@ const mapping = require('./mapping')
 function writeMappingFiles(tableName) {
   let sql = `select column_name columnName, column_default columnDefault, is_nullable isNullable, data_type dataType, column_key columnKey `
     + `from information_schema.columns where table_name = '${tableName}' and table_schema = 'lis' order by column_name;`;
-
+  
   db.executeSqlCommand(sql, function (error, result) {
     if (error) return cb(error)
     let columnMappings = []
-    var i
-    for (i = 0; i < result.queryResult.length; i++) {
+    var i    
+    for (i = 0; i < result.results.length; i++) {
       let column = {
-        columnName: result.queryResult[i].columnName,
-        columnDefault: result.queryResult[i].columnDefault,
-        isNullable: result.queryResult[i].isNullable,
-        dataType: result.queryResult[i].dataType,
-        columnKey: mapping.handleJsonValue(result.queryResult[i].columnKey),
-        camelCase: convertToCamelCase(result.queryResult[i].columnName)
+        columnName: result.results[i].columnName,
+        columnDefault: result.results[i].columnDefault,
+        isNullable: result.results[i].isNullable,
+        dataType: result.results[i].dataType,
+        columnKey: mapping.handleJsonValue(result.results[i].columnKey),
+        camelCase: convertToCamelCase(result.results[i].columnName)
       }
       columnMappings.push(column)
     }
@@ -34,3 +34,5 @@ function convertToCamelCase(columnName) {
 
 writeMappingFiles('tblWebServiceAccount')
 writeMappingFiles('tblAccessionOrder');
+writeMappingFiles('tblPanelSetOrder');
+writeMappingFiles('tblSpecimenOrder');

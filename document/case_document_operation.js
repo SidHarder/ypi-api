@@ -1,10 +1,12 @@
-const db = require('../database_operation.js');
+var db = require('../database_operation.js');
 var fs = require('fs');
-const PDFDocument = require('pdfkit');
+var PDFDocument = require('pdfkit');
 
 var caseDocumentHeader = require('./case_document_header');
-const accessionOrderHandler = require('../accession_order_handler.js');
-const caseDocumentOperation = {}
+var moneyBox = require('./money_box');
+
+var accessionOrderHandler = require('../accession_order_handler.js');
+var caseDocumentOperation = {}
 
 var operationMap = [
   { method: 'getCaseDocument', mappedMethod: getCaseDocument },
@@ -37,20 +39,38 @@ function createCaseDocument (args, cb) {
       return cb(null, error)
     }
 
+    var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
     var margins = { margins: { top: 5, bottom: 5, left: 5, right: 5 } }
     var doc = new PDFDocument(margins);
     doc.pipe(fs.createWriteStream('/home/sharder/pdf_files/output.pdf'));
-    var headerFields = caseDocumentHeader.create(result.accessionOrder);
+    
+    var accessionOrder = result.accessionOrder;
+    var panelSetOrder = result.accessionOrder.panelSetOrders[0];    
 
-    headerFields.forEach(documentElement => {
-      documentElement.forEach(fieldElement => {
-        doc
-          .font(fieldElement.font)
-          .fontSize(fieldElement.fontSize)
-          .text(fieldElement.text, fieldElement.x, fieldElement.y);
-      });
-    });
+    doc.image('./logo.jpg', 20, 20, { width: 200 });
 
+    doc.lineWidth(1)
+    doc.lineCap('butt')
+      .moveTo(90, 65)
+      .lineTo(570, 65)
+      .strokeColor('#DE7F1F')
+      .stroke()
+
+    doc
+      .font(verdana)
+      .fontSize(16)
+      .fillColor('#DE7F1F')
+      .text(panelSetOrder.panelSetName, 20, 20, { width: 550, align: 'right' });
+    
+    doc
+      .font(verdana)
+      .fontSize(14)
+      .fillColor('black')
+      .text(`YPI Report #: ${panelSetOrder.reportNo}`, 20, 70, { width: 550, align: 'right' });
+    
+    caseDocumentHeader.create(doc, accessionOrder, panelSetOrder);
+    moneyBox.create(doc, accessionOrder, panelSetOrder);
+    
     doc.end();
     cb(null, { status: 'OK', message: `The case document has been created` });
 

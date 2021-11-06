@@ -29,15 +29,18 @@ function getByMasterAccessionNo (args, cb) {
   var sql = `select * from tblAccessionOrder where masterAccessionNo = '${masterAccessionNo}';`;
   sql += `select * from tblPanelSetOrder where masterAccessionNo = '${masterAccessionNo}';`;
 
-  db.executeSqlCommand(sql, function (error, queryResult) {
-    //if (error) {
-    //  console.error(err
-      //return cb(null, error)      
-    //}
-
-    mapping.getMapping('tblAccessionOrder', function (error, tableMapping) {
-      var aoCamelCase = mapping.toCamelCase(tableMapping, queryResult.results[0]);      
-      cb(null, { status: 'OK', accessionOrder: aoCamelCase });
+  db.executeSqlCommand(sql, function (error, queryResult) {    
+    mapping.getMapping('tblAccessionOrder', function (error, aoMapping) {
+      var accessionOrder = mapping.toCamelCase(aoMapping, queryResult.results[0][0]);
+      accessionOrder.panelSetOrders = [];
+      var psoSql = queryResult.results[1];
+      mapping.getMapping('tblPanelSetOrder', function (error, psoMapping) {
+        psoSql.forEach(pso => {
+          var pso = mapping.toCamelCase(psoMapping, pso);
+          accessionOrder.panelSetOrders.push(pso);
+        });
+        cb(null, { status: 'OK', accessionOrder });
+      });
     });
   });
 }

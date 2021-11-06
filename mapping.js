@@ -30,7 +30,7 @@ function handleSqlValue(column, value) {
   return result
 }
 
-function handleJsonValue(value) {
+function handleJsonValue(value) {  
   if (value == undefined || value == '') {
     return null
   } else {
@@ -70,7 +70,7 @@ function toCamelCase(tableMapping, sqlResult) {
     var value = sqlResult[column.columnName];
     if (column.dataType == 'tinyint') value = mapping.convertSQLBooleanToJSON(value);
     if (column.dataType == 'datetime') value = mapping.convertSQLDateTimeToJSON(value);
-    if (column.dataType == 'varchar') value = mapping.handleJsonValue(value);
+    if (column.dataType == 'varchar') var sanitizedValue = mapping.handleJsonValue(value);
     //if (column.dataType == 'json') value = mapping.handleJsonObjectValue(value);
     result[column.camelCase] = value;
   });  
