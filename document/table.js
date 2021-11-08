@@ -1,19 +1,27 @@
 var table = {};
 
 var defaultRowHeight = 15;
-var defaultColumnWidth = 200;
+var defaultColumnWidth = 100;
 
 function create(rows, columns, left, top, width) {
   var table = {};
 
   table.top = top;
   table.left = left;
+  table.right = left + width;
   table.width = width;
-  table.height = 0;
+  table.height = rows * defaultRowHeight;
   table.rows = [];
-  table.columns = [];
+  table.columns = [];  
 
-  for(var i=0; i<rows; i++) {
+  table.addRow = addRow;
+  table.addColumn = addColumn;
+  table.setTop = setTop;
+  table.setLeft = setLeft;
+  table.center = center;
+  table.setColumnWidth = setColumnWidth;
+
+  for (var i = 0; i < rows; i++) {
     table.addRow(defaultRowHeight);
   }
 
@@ -21,49 +29,58 @@ function create(rows, columns, left, top, width) {
     table.addColumn(defaultColumnWidth);
   }
 
-  table.addRow = addRow;
-  table.addColumn = addColumn;
-  table.setTop = setTop;
-  table.setLeft = setLeft;
-  table.center = center;
-
   return table;
 }
 
-table.addRow = function (rowHeight) {
-  var newRow = { height: rowHeight, top: table.height, height: rowHeight };
-  table.rows.push(newRow);
-  table.height += rowHeight;
+function addRow(rowHeight) {
+  var runningTop = this.top;
+  this.rows.forEach(row => {
+    runningTop += row.height;
+  });
+  var newRow = { height: rowHeight, top: runningTop, height: rowHeight };  
+  this.rows.push(newRow);  
 }
 
-table.addColumn = function (columnWidth) {
-  var newColumn = { width: columnWidth, left: table.width, width: columnWidth };
-  table.columns.push(newColumn);
-  table.width += columnWidth;
+function addColumn(columnWidth) {
+  var runningLeft = this.left;
+  this.columns.forEach(column => {
+    runningLeft += column.width;
+  });
+  var newColumn = { width: columnWidth, left: runningLeft, width: columnWidth };
+  this.columns.push(newColumn);  
 }
 
 function setTop(top) {
-  table.top = top;
+  this.top = top;
   var runningTop = top;
-  table.rows.forEach(row => {        
+  this.rows.forEach(row => {        
     row.top = runningTop;
     runningTop += row.height;
   });
 }
 
 function setLeft(left) {
-  table.left = left;
+  this.left = left;
   var runningLeft = left;
-  table.columns.forEach(column => {
+  this.columns.forEach(column => {
     column.left = runningLeft;
     runningLeft += column.width;
   })
 }
 
 function center(pageWidth) {
-  table.left = (pageWidth - table.width)/2;
-  var runningLeft = table.left;
-  table.columns.forEach(column => {
+  this.left = Math.round((pageWidth - this.width)/2);
+  var runningLeft = this.left;
+  this.columns.forEach(column => {
+    column.left = runningLeft;
+    runningLeft += column.width;
+  })
+}
+
+function setColumnWidth(column, width) {
+  this.columns[column].width = width;
+  var runningLeft = this.left;
+  this.columns.forEach(column => {
     column.left = runningLeft;
     runningLeft += column.width;
   })

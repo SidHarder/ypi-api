@@ -39,10 +39,11 @@ function createCaseDocument (args, cb) {
       return cb(null, error)
     }
 
-    var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
+    //var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
     var margins = { margins: { top: 5, bottom: 5, left: 5, right: 5 } }
     var doc = new PDFDocument(margins);
-    doc.pipe(fs.createWriteStream('/home/sharder/pdf_files/output.pdf'));
+    console.log(process.env.ACCESSION_DOCUMENT_PATH);
+    doc.pipe(fs.createWriteStream(`${process.env.ACCESSION_DOCUMENT_PATH}/output.pdf`));
     
     var accessionOrder = result.accessionOrder;
     var panelSetOrder = result.accessionOrder.panelSetOrders[0];    
@@ -57,13 +58,13 @@ function createCaseDocument (args, cb) {
       .stroke()
 
     doc
-      .font(verdana)
+      .font('Helvetica')
       .fontSize(16)
       .fillColor('#DE7F1F')
       .text(panelSetOrder.panelSetName, 20, 20, { width: 550, align: 'right' });
     
     doc
-      .font(verdana)
+      .font('Helvetica')
       .fontSize(14)
       .fillColor('black')
       .text(`YPI Report #: ${panelSetOrder.reportNo}`, 20, 70, { width: 550, align: 'right' });
