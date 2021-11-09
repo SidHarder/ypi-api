@@ -36,3 +36,4 @@ writeMappingFiles('tblWebServiceAccount')
 writeMappingFiles('tblAccessionOrder');
 writeMappingFiles('tblPanelSetOrder');
 writeMappingFiles('tblSpecimenOrder');
+writeMappingFiles('tblAPTIMASARSCoV2TestOrder');

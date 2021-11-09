@@ -28,6 +28,7 @@ function getByMasterAccessionNo (args, cb) {
 
   var sql = `select * from tblAccessionOrder where masterAccessionNo = '${masterAccessionNo}';`;
   sql += `select * from tblPanelSetOrder where masterAccessionNo = '${masterAccessionNo}';`;
+  sql += `select result.* from tblAPTIMASARSCoV2TestOrder result join tblPanelSetOrder pso on result.ReportNo = pso.ReportNo where pso.MasterAccessionNo = '${masterAccessionNo}';`;
 
   db.executeSqlCommand(sql, function (error, queryResult) {    
     mapping.getMapping('tblAccessionOrder', function (error, aoMapping) {

@@ -19,7 +19,9 @@ function create(rows, columns, left, top, width) {
   table.setTop = setTop;
   table.setLeft = setLeft;
   table.center = center;
+
   table.setColumnWidth = setColumnWidth;
+  table.setRowHeight = setRowHeight;
 
   for (var i = 0; i < rows; i++) {
     table.addRow(defaultRowHeight);
@@ -84,6 +86,16 @@ function setColumnWidth(column, width) {
     column.left = runningLeft;
     runningLeft += column.width;
   })
+}
+
+function setRowHeight(row, height) {
+  this.rows[row].height = height;
+  var runningTop = this.top;    
+  this.rows.forEach(row => {        
+    row.runningTop = runningTop;
+    runningTop += row.height;        
+  })  
+  this.height = runningTop - this.top;    
 }
 
 table.create = create;
