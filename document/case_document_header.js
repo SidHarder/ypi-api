@@ -1,8 +1,15 @@
 var moment = require('moment');
 
+var colors = require('./colors');
+var fonts = require('./fonts');
+
 var accessionOrderHandler = require('../accession_order_handler')
 
-var caseDocumentHeader = [];
+var caseDocumentHeader = {};
+
+var verdana = process.env.FONT_VERDANA;
+var verdanaBold = process.env.FONT_VERDANA_BOLD;
+var verdanaItalic = process.env.FONT_VERDANA_ITALIC;
 
 //var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
 
@@ -31,104 +38,104 @@ function create(document, accessionOrder, panelSetOrder) {
   headerTable.rows.push({ top: headerTable.top + 36 });
   headerTable.rows.push({ top: headerTable.top + 52 });
   headerTable.rows.push({ top: headerTable.top + 68 });
-  headerTable.rows.push({ top: headerTable.top + 84 });
-  
+  headerTable.rows.push({ top: headerTable.top + 84 });  
+
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)        
     .text('Patient:', headerTable.columns[0].left, headerTable.rows[0].top);
   
   var patientName = getPatientName(accessionOrder);
   document
-    .font('Helvetica-Bold')
-    .fillColor('black')
+    .font(verdanaBold)
+    .fillColor(colors.black)
     .fontSize(12)
     .text(patientName, headerTable.columns[1].left, headerTable.rows[0].top);      
     
   var patientTextWidth = document.widthOfString(patientName);
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(10)
     .text(getCaseHeaderDateOfBirth(accessionOrder), headerTable.columns[1].left + patientTextWidth + 10, headerTable.rows[0].top);
       
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text('Provider', headerTable.columns[0].left, headerTable.rows[2].top);      
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text(accessionOrder.physicianName, headerTable.columns[1].left, headerTable.rows[2].top);
   
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text(accessionOrder.clientName, headerTable.columns[1].left, headerTable.rows[3].top);      
   
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text('Date of report:', headerTable.columns[2].left, headerTable.rows[1].top, { width: headerTable.columns[2].width - 10, align: 'right' });
   
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text(moment(panelSetOrder.finalTime).format('MM/DD/YYYY hh:mm'), headerTable.columns[3].left, headerTable.rows[1].top);
     
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text('Accessioned:', headerTable.columns[2].left, headerTable.rows[2].top, { width: headerTable.columns[2].width - 10, align: 'right' });
   
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text(moment(panelSetOrder.accessionTime).format('MM/DD/YYYY hh:mm'), headerTable.columns[3].left, headerTable.rows[2].top);  
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text('Date of service:', headerTable.columns[2].left, headerTable.rows[3].top, { width: headerTable.columns[2].width - 10, align: 'right' });
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text(moment(accessionOrder.collectionDate).format('MM/DD/YYYY'), headerTable.columns[3].left, headerTable.rows[3].top);
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text('Client MRN:', headerTable.columns[2].left, headerTable.rows[4].top, { width: headerTable.columns[2].width - 10, align: 'right' });
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text(accessionOrder.svhMedicalRecord, headerTable.columns[3].left, headerTable.rows[4].top);
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text('Client ACCT:', headerTable.columns[2].left, headerTable.rows[5].top, { width: headerTable.columns[2].width - 10, align: 'right' });
 
   document
-    .font('Helvetica')
-    .fillColor('black')
+    .font(fonts.verdana)
+    .fillColor(colors.black)
     .fontSize(9)
     .text(accessionOrder.svhAccount, headerTable.columns[3].left, headerTable.rows[5].top);
 }

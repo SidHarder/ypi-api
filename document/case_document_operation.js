@@ -1,16 +1,26 @@
 var db = require('../database_operation.js');
+
 var fs = require('fs');
 var PDFDocument = require('pdfkit');
 
+var colors = require('./colors');
+var fonts = require('./fonts');
+
 var caseDocumentHeader = require('./case_document_header');
 var moneyBox = require('./money_box');
+var caseDoumentFooter = require('./case_document_footer');
 
 var accessionOrderHandler = require('../accession_order_handler.js');
+const caseDocumentFooter = require('./case_document_footer');
+const fileStructure = require('./file_structure');
+
 var caseDocumentOperation = {}
 
 var operationMap = [
   { method: 'getCaseDocument', mappedMethod: getCaseDocument },
-  { method: 'createCaseDocument', mappedMethod: createCaseDocument }
+  { method: 'createCaseDocument', mappedMethod: createCaseDocument },
+  { method: 'addCaseFolders', mappedMethod: fileStructure.addCaseFolders },
+  { method: 'getCasePath', mappedMethod: fileStructure.getCasePath }
 ]
 
 function processCaseDocumentOperation(args, cb) {
@@ -39,38 +49,38 @@ function createCaseDocument (args, cb) {
       return cb(null, error)
     }
 
-    //var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
     var margins = { margins: { top: 5, bottom: 5, left: 5, right: 5 } }
-    var doc = new PDFDocument(margins);
-    console.log(process.env.ACCESSION_DOCUMENT_PATH);
-    doc.pipe(fs.createWriteStream(`${process.env.ACCESSION_DOCUMENT_PATH}/output.pdf`));
-    
+    var doc = new PDFDocument(margins);      
+    doc.pipe(fs.createWriteStream(`${process.env.ACCESSION_DOCUMENT_PATH}/output.pdf`));    
+
     var accessionOrder = result.accessionOrder;
-    var panelSetOrder = result.accessionOrder.panelSetOrders[0];    
+    var panelSetOrder = result.accessionOrder.panelSetOrders[0];  
+    var specimenOrder = result.accessionOrder.specimenOrders[0];  
 
-    doc.image('./logo.jpg', 20, 20, { width: 200 });
+    doc.image('./logo.jpg', 20, 20, { width: 200 });    
 
-    doc.lineWidth(1)
+    doc.lineWidth(.75)
     doc.lineCap('butt')
-      .moveTo(90, 65)
-      .lineTo(570, 65)
-      .strokeColor('#DE7F1F')
+      .moveTo(90, 66)
+      .lineTo(570, 66)
+      .strokeColor(colors.burntOrange)
       .stroke()
 
     doc
-      .font('Helvetica')
+      .font(fonts.verdana)
       .fontSize(16)
-      .fillColor('#DE7F1F')
+      .fillColor(colors.darkBurntOrange)
       .text(panelSetOrder.panelSetName, 20, 20, { width: 550, align: 'right' });
     
     doc
-      .font('Helvetica')
+      .font(fonts.verdana)
       .fontSize(14)
-      .fillColor('black')
+      .fillColor(colors.black)
       .text(`YPI Report #: ${panelSetOrder.reportNo}`, 20, 70, { width: 550, align: 'right' });
     
     caseDocumentHeader.create(doc, accessionOrder, panelSetOrder);
-    moneyBox.create(doc, accessionOrder, panelSetOrder);
+    moneyBox.create(doc, accessionOrder, panelSetOrder, specimenOrder);
+    caseDocumentFooter.create(doc);
     
     doc.end();
     cb(null, { status: 'OK', message: `The case document has been created` });

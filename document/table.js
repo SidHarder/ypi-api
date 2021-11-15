@@ -1,6 +1,6 @@
 var table = {};
 
-var defaultRowHeight = 15;
+var defaultRowHeight = 14;
 var defaultColumnWidth = 100;
 
 function create(rows, columns, left, top, width) {
@@ -92,8 +92,8 @@ function setRowHeight(row, height) {
   this.rows[row].height = height;
   var runningTop = this.top;    
   this.rows.forEach(row => {        
-    row.runningTop = runningTop;
-    runningTop += row.height;        
+    row.top = runningTop;
+    runningTop += row.height;       
   })  
   this.height = runningTop - this.top;    
 }

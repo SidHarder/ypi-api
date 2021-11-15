@@ -3,7 +3,7 @@ const fs = require('fs')
 const db = require('./database_operation.js')
 const mapping = require('./mapping')
 
-function writeMappingFiles(tableName) {
+function writeMappingFiles(tableName, fileName) {
   let sql = `select column_name columnName, column_default columnDefault, is_nullable isNullable, data_type dataType, column_key columnKey `
     + `from information_schema.columns where table_name = '${tableName}' and table_schema = 'lis' order by column_name;`;
   
@@ -23,7 +23,7 @@ function writeMappingFiles(tableName) {
       columnMappings.push(column)
     }
 
-    fs.writeFileSync('./sql_map_files/' + tableName + '_mapping.json', JSON.stringify(columnMappings))
+    fs.writeFileSync('./sql_map_files/' + fileName, JSON.stringify(columnMappings))
     console.log('mapping was successfully written.')
   })
 }
@@ -32,8 +32,8 @@ function convertToCamelCase(columnName) {
   return `${columnName[0].toLowerCase()}${columnName.substr(1)}`;
 }
 
-writeMappingFiles('tblWebServiceAccount')
-writeMappingFiles('tblAccessionOrder');
-writeMappingFiles('tblPanelSetOrder');
-writeMappingFiles('tblSpecimenOrder');
-writeMappingFiles('tblAPTIMASARSCoV2TestOrder');
+writeMappingFiles('tblWebServiceAccount', 'web_service_account.json');
+writeMappingFiles('tblAccessionOrder', 'accession_order.json');
+writeMappingFiles('tblPanelSetOrder', 'panel_set_order.json');
+writeMappingFiles('tblSpecimenOrder', 'specimen_order.json');
+writeMappingFiles('tblAPTIMASARSCoV2TestOrder', 'aptima_sarscov2_test_order.json');
