@@ -40,9 +40,9 @@ function handleResult(args, cb) {
         + `FinalDate = '${moment().format("YYYY-MM-DD")}', `
         + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `
     }
+    sql += `where Accepted = 0 and reportNo = '${args.reportNo}';`;
   }  
-    
-  sql += `where Accepted = 0 and reportNo = '${args.reportNo}';`;
+      
   sql += `Select clientId from tblAccessionOrder ao join tblPanelSetOrder pso on ao.MasterAccessionNo = pso.MasterAccessionNo where pso.ReportNo = '${args.reportNo}';`
 
   db.executeSqlCommand(sql, function (error, result) {
