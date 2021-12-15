@@ -10,7 +10,7 @@ var verdanaItalic = process.env.FONT_VERDANA_ITALIC;
 //var verdana = '/usr/share/fonts/truetype/msttcorefonts/verdana.ttf';
 
 function create(document, accessionOrder, panelSetOrder, specimenOrder) {
-  var tbl = table.create(16, 4, 10, 220, 560);  
+  var tbl = table.create(17, 4, 10, 200, 560);  
   tbl.center(612);
 
   tbl.setColumnWidth(0, 30);
@@ -51,25 +51,24 @@ function create(document, accessionOrder, panelSetOrder, specimenOrder) {
     .font(verdana)
     .fontSize(10)
     .fillColor(colors.black)
-    .text('Not Detected', tbl.columns[3].left, tbl.rows[2].top);
-
-  document
-    .font(verdana)
-    .fontSize(8)
-    .fillColor(colors.black)
-    .text('Comment:', tbl.columns[1].left, tbl.rows[3].top);
+    .text('Not Detected', tbl.columns[3].left, tbl.rows[2].top);  
 
   var commentHeaderWidth = document.widthOfString('Comment:');
   var commentText = panelSetOrder.aptimaSarscov2Result.comment;
-  var commentTextHeight = document.heightOfString(commentText, { align: 'left', width: 400 });
+  var commentTextHeight = document.heightOfString(commentText, { align: 'left', width: 400 }) + 10;
   tbl.setRowHeight(3, commentTextHeight);
 
   document
     .font(verdana)
     .fontSize(8)
     .fillColor(colors.black)
-    .text(commentText, tbl.columns[1].left + commentHeaderWidth + 3, tbl.rows[3].top, { align: 'left', width: 400 });
+    .text('Comment:', tbl.columns[1].left, tbl.rows[3].top + 5);
 
+  document
+    .font(verdana)
+    .fontSize(8)
+    .fillColor(colors.black)
+    .text(commentText, tbl.columns[1].left + commentHeaderWidth + 3, tbl.rows[3].top + 5, { align: 'left', width: 400 });
 
   document.lineWidth(1)
   document.lineCap('butt')
@@ -115,33 +114,31 @@ function create(document, accessionOrder, panelSetOrder, specimenOrder) {
     .fillColor(colors.black)
     .text(specimenOrder.collectionDate, tbl.columns[2].left, tbl.rows[7].top);
 
-
-
+  tbl.setRowHeight(8, 18);
   document
     .font(verdanaBold)
     .fontSize(9)
     .fillColor(colors.black)
-    .text('Method', tbl.columns[0].left, tbl.rows[8].top, { underline: true });
+    .text('Method', tbl.columns[0].left, tbl.rows[8].top + 5, { underline: true });
 
   document.fontSize(8)
   var presentationWidth = 550;
   var methodText = panelSetOrder.aptimaSarscov2Result.method;
   var methodTextHeight = document.heightOfString(methodText, { align: 'left', width: presentationWidth });
   tbl.setRowHeight(9, methodTextHeight);
-
+  
   document
     .font(verdana)
     .fontSize(8)
     .fillColor(colors.black)
     .text(methodText, tbl.columns[0].left, tbl.rows[9].top, { width: presentationWidth });
   
-
-
+  tbl.setRowHeight(10, 18);
   document
     .font(verdanaBold)
     .fontSize(9)
     .fillColor(colors.black)
-    .text('References', tbl.columns[0].left, tbl.rows[10].top, { underline: true });
+    .text('References', tbl.columns[0].left, tbl.rows[10].top + 5, { underline: true });
   
   document.fontSize(8)
   var referencesText = panelSetOrder.reportReferences;

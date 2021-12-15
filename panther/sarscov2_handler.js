@@ -7,9 +7,9 @@ const sarscov2Handler = {}
 var instrumentResultName = 'CoVResult';
 
 var resultMapping = [
-  { instrumentResult: 'Invalid', result: 'Invalid', code: 'SARSCOV2NVLD', comment: 'The result of this test was invalid. Please submit a new specimen for further testing.', okToFinal: false },
-  { instrumentResult: 'Negative', result: 'Negative', code: 'SARSCOV2NGTV', okToFinal: true },  
-  { instrumentResult: 'POSITIVE', result: 'POSITIVE', code: 'SARSCOV2PSTV', okToFinal: true }
+  { instrumentResult: 'Invalid', result: 'Invalid', code: 'SARSCOV2NVLD', comment: 'The result of this test was invalid. Please submit a new specimen for further testing.', okToAccept: false, okToFinal: false },
+  { instrumentResult: 'Negative', result: 'Negative', code: 'SARSCOV2NGTV', okToAccept: true, okToFinal: true },  
+  { instrumentResult: 'POSITIVE', result: 'POSITIVE', code: 'SARSCOV2PSTV', okToAccept: true, okToFinal: true }
 ];
 
 function handleResult(args, cb) {  
@@ -25,20 +25,22 @@ function handleResult(args, cb) {
 
   sql += `Where pso.ReportNo = '${args.reportNo}' and pso.Accepted = 0; `;
 
-  sql += `Update tblPanelSetOrder set `    
-    + `Accepted = 1, `
-    + `AcceptedBy = 'AUTOVER TESTING', `
-    + `AcceptedById = 5134, `
-    + `AcceptedDate = '${moment().format("YYYY-MM-DD")}', `
-    + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;
-    
-  if (mappedResult.okToFinal == true) {
-    sql += `, Final = 1, `
-    + `Signature = 'AUTOVER TESTING', `
-    + `FinaledById = 5134, `
-    + `FinalDate = '${moment().format("YYYY-MM-DD")}', `
-    + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `
-  }
+  if (mappedResult.okToAccept == true) {
+    sql += `Update tblPanelSetOrder set `
+      + `Accepted = 1, `
+      + `AcceptedBy = 'AUTOVER TESTING', `
+      + `AcceptedById = 5134, `
+      + `AcceptedDate = '${moment().format("YYYY-MM-DD")}', `
+      + `AcceptedTime = '${moment().format("YYYY-MM-DD HH:mm")}' `;
+
+    if (mappedResult.okToFinal == true) {
+      sql += `, Final = 1, `
+        + `Signature = 'AUTOVER TESTING', `
+        + `FinaledById = 5134, `
+        + `FinalDate = '${moment().format("YYYY-MM-DD")}', `
+        + `FinalTime = '${moment().format("YYYY-MM-DD HH:mm")}' `
+    }
+  }  
     
   sql += `where Accepted = 0 and reportNo = '${args.reportNo}';`;
   sql += `Select clientId from tblAccessionOrder ao join tblPanelSetOrder pso on ao.MasterAccessionNo = pso.MasterAccessionNo where pso.ReportNo = '${args.reportNo}';`
