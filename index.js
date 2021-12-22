@@ -34,7 +34,7 @@ const server = jayson.server({
   caseDocumentOperation: caseDocumentOperation.processCaseDocumentOperation,
   domainOperation: domainOperation.processDomainOperation,
   reportDataOperation: reportData.processReportDataOperation,
-  applicationVersion: applicationVersion.processApplicationVersionOperation
+  applicationVersionOperation: applicationVersion.processApplicationVersionOperation
 });
 
 function ping(args, cb) {

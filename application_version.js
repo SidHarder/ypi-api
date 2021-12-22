@@ -1,5 +1,17 @@
 var aplicationVersion = {};
 
+var versions = []
+versions.push({ version: '1.1.10.0', updateAvailable: false });
+versions.push({ version: '1.1.9.0', updateAvailable: true });
+versions.push({ version: '1.1.8.0', updateAvailable: true });
+versions.push({ version: '1.1.7.0', updateAvailable: true });
+versions.push({ version: '1.1.6.0', updateAvailable: true });
+versions.push({ version: '1.1.5.0', updateAvailable: true });
+versions.push({ version: '1.1.4.0', updateAvailable: true });
+versions.push({ version: '1.1.3.0', updateAvailable: true });
+versions.push({ version: '1.1.2.0', updateAvailable: true });
+versions.push({ version: '1.1.1.0', updateAvailable: true });
+
 const applicationVersionMapp = [
   { target: 'applicationVersion', method: 'isUpdateAvailable', mappedMethod: isUpdateAvailable }
 ];
@@ -14,8 +26,13 @@ function processApplicationVersionOperation(args, cb) {
   }
 }
 
-function isUpdateAvailable(args, cb) {
-  cb(null, { status: 'OK', latestVersion: '1.0.0.1' })
+function isUpdateAvailable(args, cb) {  
+  var mappedVersion = versions.find(ver => ver.version === args.version );  
+  if(!mappedVersion) {
+    cb(null, { status: 'ERROR', message: 'The version provided is not valid.' });
+  } else {
+    cb(null, { status: 'OK', updateAvailable: mappedVersion.updateAvailable, latestVersion: versions[0].version });
+  }  
 }
 
 aplicationVersion.processApplicationVersionOperation = processApplicationVersionOperation;
