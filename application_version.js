@@ -1,16 +1,20 @@
 var aplicationVersion = {};
 
 var versions = []
-versions.push({ version: '1.1.10.0', updateAvailable: false });
-versions.push({ version: '1.1.9.0', updateAvailable: true });
-versions.push({ version: '1.1.8.0', updateAvailable: true });
-versions.push({ version: '1.1.7.0', updateAvailable: true });
-versions.push({ version: '1.1.6.0', updateAvailable: true });
-versions.push({ version: '1.1.5.0', updateAvailable: true });
-versions.push({ version: '1.1.4.0', updateAvailable: true });
-versions.push({ version: '1.1.3.0', updateAvailable: true });
-versions.push({ version: '1.1.2.0', updateAvailable: true });
-versions.push({ version: '1.1.1.0', updateAvailable: true });
+//YPI Connect Versions
+versions.push({ version: '1.1.10.0', updateAvailable: false, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.9.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.8.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.7.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.6.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.5.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.4.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.3.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.2.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.1.0', updateAvailable: true, applicationName: 'YPIConnect' });
+
+//YPI LIS Versions
+versions.push({ version: '1.0.0.1', updateAvailable: false, applicationName: 'YPILIS' });
 
 const applicationVersionMapp = [
   { target: 'applicationVersion', method: 'isUpdateAvailable', mappedMethod: isUpdateAvailable }
@@ -27,11 +31,24 @@ function processApplicationVersionOperation(args, cb) {
 }
 
 function isUpdateAvailable(args, cb) {  
-  var mappedVersion = versions.find(ver => ver.version === args.version );  
+  var applicationName = args.applicationName;
+  if (!applicationName) {
+    return cb(null, { status: 'ERROR', message: `An application name was not provided as an argument.` });
+  }
+
+  var version = args.version;
+  if (!version) {
+    return cb(null, { status: 'ERROR', message: `An version was not provided as an argument.` });
+  }
+
+  
+  var mappedVersion = versions.find(ver => ver.version === version && ver.applicationName == applicationName );  
+  var latestVersion = versions.find(ver => ver.applicationName == applicationName);  
+
   if(!mappedVersion) {
     cb(null, { status: 'ERROR', message: 'The version provided is not valid.' });
   } else {
-    cb(null, { status: 'OK', updateAvailable: mappedVersion.updateAvailable, latestVersion: versions[0].version });
+    cb(null, { status: 'OK', updateAvailable: mappedVersion.updateAvailable, latestVersion: latestVersion.version });
   }  
 }
 
