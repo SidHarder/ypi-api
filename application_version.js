@@ -14,8 +14,8 @@ versions.push({ version: '1.1.2.0', updateAvailable: true, applicationName: 'YPI
 versions.push({ version: '1.1.1.0', updateAvailable: true, applicationName: 'YPIConnect' });
 
 //YPI LIS Versions
-versions.push({ version: '1.0.0.0', updateAvailable: false, applicationName: 'YPILIS' });
 versions.push({ version: '1.0.0.1', updateAvailable: false, applicationName: 'YPILIS' });
+versions.push({ version: '1.0.0.0', updateAvailable: false, applicationName: 'YPILIS' });
 
 const applicationVersionMapp = [
   { target: 'applicationVersion', method: 'isUpdateAvailable', mappedMethod: isUpdateAvailable }
