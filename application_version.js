@@ -14,9 +14,9 @@ versions.push({ version: '1.1.2.0', updateAvailable: true, applicationName: 'YPI
 versions.push({ version: '1.1.1.0', updateAvailable: true, applicationName: 'YPIConnect' });
 
 //YPI LIS Versions
-versions.push({ version: '1.0.0.2', updateAvailable: true, applicationName: 'YPILIS' });
-versions.push({ version: '1.0.0.1', updateAvailable: false, applicationName: 'YPILIS' });
-versions.push({ version: '1.0.0.0', updateAvailable: false, applicationName: 'YPILIS' });
+versions.push({ version: '1.0.0.2', updateAvailable: false, applicationName: 'YPILIS' });
+versions.push({ version: '1.0.0.1', updateAvailable: true, applicationName: 'YPILIS' });
+versions.push({ version: '1.0.0.0', updateAvailable: true, applicationName: 'YPILIS' });
 
 const applicationVersionMapp = [
   { target: 'applicationVersion', method: 'isUpdateAvailable', mappedMethod: isUpdateAvailable }
@@ -45,7 +45,7 @@ function isUpdateAvailable(args, cb) {
 
   
   var mappedVersion = versions.find(ver => ver.version === version && ver.applicationName == applicationName );  
-  var latestVersion = versions.find(ver => ver.applicationName == applicationName);  
+  var latestVersion = versions.find(ver => ver.applicationName == applicationName && ver.updateAvailable == false);  
 
   if(!mappedVersion) {
     cb(null, { status: 'ERROR', message: 'The version provided is not valid.' });
