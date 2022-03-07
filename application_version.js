@@ -2,21 +2,21 @@ var aplicationVersion = {};
 
 var versions = []
 //YPI Connect Versions
-versions.push({ version: '1.1.10.0', updateAvailable: false, applicationName: 'YPIConnect', latestVersion: true });
-versions.push({ version: '1.1.9.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.8.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.7.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.6.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.5.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.4.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.3.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.2.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
-versions.push({ version: '1.1.1.0', updateAvailable: true, applicationName: 'YPIConnect', latestVersion: false });
+versions.push({ version: '1.1.10.0', updateAvailable: false, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.9.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.8.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.7.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.6.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.5.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.4.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.3.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.2.0', updateAvailable: true, applicationName: 'YPIConnect' });
+versions.push({ version: '1.1.1.0', updateAvailable: true, applicationName: 'YPIConnect' });
 
 //YPI LIS Versions
-versions.push({ version: '1.0.0.2', updateAvailable: false, applicationName: 'YPILIS', latestVersion: true });
-versions.push({ version: '1.0.0.1', updateAvailable: false, applicationName: 'YPILIS', latestVersion: false });
-versions.push({ version: '1.0.0.0', updateAvailable: false, applicationName: 'YPILIS', latestVersion: false });
+versions.push({ version: '1.0.0.2', updateAvailable: true, applicationName: 'YPILIS' });
+versions.push({ version: '1.0.0.1', updateAvailable: false, applicationName: 'YPILIS' });
+versions.push({ version: '1.0.0.0', updateAvailable: false, applicationName: 'YPILIS' });
 
 const applicationVersionMapp = [
   { target: 'applicationVersion', method: 'isUpdateAvailable', mappedMethod: isUpdateAvailable }
