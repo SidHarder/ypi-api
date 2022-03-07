@@ -45,7 +45,7 @@ function isUpdateAvailable(args, cb) {
 
   
   var mappedVersion = versions.find(ver => ver.version === version && ver.applicationName == applicationName );  
-  var latestVersion = versions.find(ver => ver.applicationName == applicationName && ver.latestVersion == true);  
+  var latestVersion = versions.find(ver => ver.applicationName == applicationName);  
 
   if(!mappedVersion) {
     cb(null, { status: 'ERROR', message: 'The version provided is not valid.' });
