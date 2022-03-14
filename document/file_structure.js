@@ -43,7 +43,7 @@ function getCasePath(args, cb) {
   }
 
   var thousandNos = [
-    { start: 1, end: 999, path: '00100-00999' }    
+    { start: 1, end: 999, path: '00001-00999' }    
   ];
 
   for(var i=1000; i<10000; i=i+100000 ) {    
