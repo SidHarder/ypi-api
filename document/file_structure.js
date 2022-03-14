@@ -46,10 +46,11 @@ function getCasePath(args, cb) {
     { start: 1, end: 999, path: '00001-00999' }    
   ];
 
-  for(var i=1000; i<10000; i=i+100000 ) {    
+  for(var i=1000; i<100000; i=i+1000 ) {    
     thousandNos.push({ start: i, end: i+999, path: `${i.toString().padStart(5, '0')}-${(i + 999).toString().padStart(5, '0')}` })
   }
 
+  console.log(thousandNos)
   var dashSplit = masterAccessionNo.split('-');
   var year = `20${dashSplit[0]}`;
   var number = Number(dashSplit[1]);  
