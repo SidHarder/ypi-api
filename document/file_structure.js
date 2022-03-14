@@ -42,12 +42,20 @@ function getCasePath(args, cb) {
     return cb(null, { status: 'ERROR', message: `The masterAccessionNo argument was not provided as an argument.` });
   }
 
+  var thousandNos = [
+    { start: 1, end: 999, path: '00100-00999' }    
+  ];
+
+  for(var i=1000; i<10000; i=i+100000 ) {    
+    thousandNos.push({ start: i, end: i+999, path: `${i.toString().padStart(5, '0')}-${(i + 999).toString().padStart(5, '0')}` })
+  }
+
   var dashSplit = masterAccessionNo.split('-');
   var year = `20${dashSplit[0]}`;
   var number = Number(dashSplit[1]);
 
-  var thousandNo = (Math.ceil(number/1000) * 1000) - 1000;  
-  var filePath = path.join(rootFolder, year, `${thousandNo.toString().padStart(5, 0)}-${(thousandNo + 999).toString().padStart(5, 0)}` )
+  var thousandNo = thousandNos.find(i => number >= i.start && number <= i.end);
+  var filePath = path.join(rootFolder, year, thousandNo.path, masterAccessionNo )
 
   cb(null, { status: 'OK', casePath: filePath })
 }

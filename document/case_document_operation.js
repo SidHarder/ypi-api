@@ -20,7 +20,8 @@ var operationMap = [
   { method: 'getCaseDocument', mappedMethod: getCaseDocument },
   { method: 'createCaseDocument', mappedMethod: createCaseDocument },
   { method: 'addCaseFolders', mappedMethod: fileStructure.addCaseFolders },
-  { method: 'getCasePath', mappedMethod: fileStructure.getCasePath }
+  { method: 'getCasePath', mappedMethod: fileStructure.getCasePath },
+  { method: 'getCaseDocumentList', mappedMethod: getCaseDocumentList }
 ]
 
 function processCaseDocumentOperation(args, cb) {
@@ -30,6 +31,21 @@ function processCaseDocumentOperation(args, cb) {
   } else {
     cb(null, { status: 'ERROR', message: `Method Not Found` });
   }
+}
+
+function getCaseDocumentList(args, cb) {
+  var masterAccessionNo = args.masterAccessionNo;
+  if (!masterAccessionNo) {
+    console.log(`A masterAccessionNo was not provided as an argument.`);
+    return cb(null, { status: 'ERROR', message: `A masterAccessionNo was not provided as an argument.` });
+  }
+
+  fileStructure.getCasePath({ masterAccessionNo: masterAccessionNo }, function (error, result) {    
+    fs.readdir(result.casePath, function (err, files) {      
+      if (err) { return cb(null, { status: 'ERROR', err });; }            
+      cb(null, files);
+    });    
+  })  
 }
 
 function getCaseDocument(args, cb) {
