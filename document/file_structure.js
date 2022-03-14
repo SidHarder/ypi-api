@@ -53,8 +53,12 @@ function getCasePath(args, cb) {
   var dashSplit = masterAccessionNo.split('-');
   var year = `20${dashSplit[0]}`;
   var number = Number(dashSplit[1]);
-
+  
   var thousandNo = thousandNos.find(i => number >= i.start && number <= i.end);
+
+  console.log(rootFolder)
+  console.log(year)
+  console.log(thousandNo.path)
   var filePath = path.join(rootFolder, year, thousandNo.path, masterAccessionNo )
 
   cb(null, { status: 'OK', casePath: filePath })
