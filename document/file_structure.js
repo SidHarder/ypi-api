@@ -49,13 +49,12 @@ function getCasePath(args, cb) {
   for(var i=1000; i<100000; i=i+1000 ) {    
     thousandNos.push({ start: i, end: i+999, path: `${i.toString().padStart(5, '0')}-${(i + 999).toString().padStart(5, '0')}` })
   }
-
-  console.log(thousandNos)
+  
   var dashSplit = masterAccessionNo.split('-');
   var year = `20${dashSplit[0]}`;
   var number = Number(dashSplit[1]);  
   var thousandNo = thousandNos.find(i => number >= i.start && number <= i.end);
-  var filePath = path.join(rootFolder, year, thousandNo.path, masterAccessionNo )
+  var filePath = path.join(year, thousandNo.path, masterAccessionNo )
 
   cb(null, { status: 'OK', casePath: filePath })
 }

@@ -1,4 +1,5 @@
 var db = require('../database_operation.js');
+var path = require('path');
 
 var fs = require('fs');
 var PDFDocument = require('pdfkit');
@@ -40,10 +41,14 @@ function getCaseDocumentList(args, cb) {
     return cb(null, { status: 'ERROR', message: `A masterAccessionNo was not provided as an argument.` });
   }
 
-  fileStructure.getCasePath({ masterAccessionNo: masterAccessionNo }, function (error, result) {    
+  fileStructure.getCasePath({ masterAccessionNo: masterAccessionNo }, function (error, result) {   
+    var fullPath = path.join(process.env.ACCESSION_DOCUMENT_PATH, result.casePath);
     fs.readdir(result.casePath, function (err, files) {      
-      if (err) { return cb(null, { status: 'ERROR', err });; }            
-      cb(null, files);
+      if (err) return cb(null, { status: 'ERROR', err });
+      var mappedFiles = files.map(function(f) {
+        return { fileName: f, fullPath: result.casePath }
+      });
+      cb(null, mappedFiles);
     });    
   })  
 }
