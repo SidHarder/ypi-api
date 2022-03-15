@@ -42,8 +42,8 @@ function getCaseDocumentList(args, cb) {
   }
 
   fileStructure.getCasePath({ masterAccessionNo: masterAccessionNo }, function (error, result) {   
-    var fullPath = path.join(process.env.ACCESSION_DOCUMENT_PATH, result.casePath);
-    fs.readdir(result.casePath, function (err, files) {      
+    var fullPath = path.join(process.env.ACCESSION_DOCUMENT_PATH, result.casePath);    
+    fs.readdir(fullPath, function (err, files) {      
       if (err) return cb(null, { status: 'ERROR', err });
       var mappedFiles = files.map(function(f) {
         return { fileName: f, fullPath: result.casePath }
