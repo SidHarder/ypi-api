@@ -45,10 +45,11 @@ function getCaseDocumentList(args, cb) {
     var fullPath = path.join(process.env.ACCESSION_DOCUMENT_PATH, result.casePath);    
     fs.readdir(fullPath, function (err, files) {      
       if (err) return cb(null, { status: 'ERROR', err });
-      var mappedFiles = files.map(function(f) {
+      documents = files.map(function(f) {
         return { fileName: f, fullPath: result.casePath }
       });
-      cb(null, mappedFiles);
+
+      cb(null, { status: 'OK', documents });
     });    
   })  
 }
