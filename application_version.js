@@ -1,7 +1,9 @@
 var aplicationVersion = {};
 
 var versions = []
+
 //YPI Connect Versions
+versions.push({ version: '2.0.0.4', updateAvailable: false, applicationName: 'YPIConnect' });
 versions.push({ version: '2.0.0.3', updateAvailable: false, applicationName: 'YPIConnect' });
 versions.push({ version: '2.0.0.2', updateAvailable: true, applicationName: 'YPIConnect' });
 versions.push({ version: '2.0.0.1', updateAvailable: true, applicationName: 'YPIConnect' });
