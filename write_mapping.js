@@ -37,3 +37,4 @@ writeMappingFiles('tblAccessionOrder', 'accession_order.json');
 writeMappingFiles('tblPanelSetOrder', 'panel_set_order.json');
 writeMappingFiles('tblSpecimenOrder', 'specimen_order.json');
 writeMappingFiles('tblAPTIMASARSCoV2TestOrder', 'aptima_sarscov2_test_order.json');
+writeMappingFiles('tblMaterialStorageScanLog', 'material_storage_scan_log.json');

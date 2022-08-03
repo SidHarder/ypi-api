@@ -72,7 +72,7 @@ function executeSqlCommand(commandText, cb) {
   })
 }
 
-function insertRow(tableName, row, cb) {
+function insertRow(tableName, row, cb) {  
   mapping.getMapping(tableName, function (error, tableMapping) {
     if (error) return cb(null, { status: 'ERROR', message: error })
     var sql = 'Insert ' + tableName
@@ -87,10 +87,10 @@ function insertRow(tableName, row, cb) {
     })
 
     sql += ' (' + fields.join(', ') + ') values (' + values.join(', ') + ')'
-
+    
     databaseOperation.executeSqlCommand(sql, function (error, result) {
       if (error) return cb(error)
-      cb(null, { status: 'OK', message: 'The order was inserted successfully.' })
+      cb(null, { status: 'OK', message: 'The row was inserted successfully.' })
     })
   })
 }
@@ -123,4 +123,5 @@ function updateRow(tableName, row, cb) {
 
 databaseOperation.executeSqlCommand = executeSqlCommand
 databaseOperation.processDatabaseOperation = processDatabaseOperation
+databaseOperation.insertRow = insertRow;
 module.exports = databaseOperation

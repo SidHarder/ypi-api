@@ -22,8 +22,13 @@ var operationMap = [
   { method: 'createCaseDocument', mappedMethod: createCaseDocument },
   { method: 'addCaseFolders', mappedMethod: fileStructure.addCaseFolders },
   { method: 'getCasePath', mappedMethod: fileStructure.getCasePath },
-  { method: 'getCaseDocumentList', mappedMethod: getCaseDocumentList }
+  { method: 'getCaseDocumentList', mappedMethod: getCaseDocumentList },
+  { method: 'saveDocumentScan', mappedMethod: saveDocumentScan }
 ]
+
+function saveDocumentScan(args, cb) {
+  cb(null, { status: 'OK' })
+}
 
 function processCaseDocumentOperation(args, cb) {
   var operationMethod = operationMap.find((r) => r.method == args[0].caseDocumentOperation.method);
