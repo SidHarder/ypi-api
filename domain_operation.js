@@ -1,12 +1,14 @@
 var db = require('./database_operation.js');
 var accessionOrderHandler = require('./accession_order_handler');
 var materialStorageScanLog = require('./material_storage_scan_log');
+var systemUserHandler = require('./system_user_handler');
 
 var domainOperation = {};
 
 var domainTargets = [
   { targetName: 'accessionOrder', targetHandler: accessionOrderHandler.methodHandler },
-  { targetName: 'materialStorageScanLog', targetHandler: materialStorageScanLog.methodHandler }
+  { targetName: 'materialStorageScanLog', targetHandler: materialStorageScanLog.methodHandler },
+  { targetName: 'systemUser', targetHandler: systemUserHandler.methodHandler }
 ]
 
 function processDomainOperation(args, cb) {
